@@ -21,11 +21,32 @@ First, get yourself a `Census API key <http://www.census.gov/developers/>`_.
 
 ::
 
-    from census import Census
+    from census import Census, states
 
     c = Census("MY_API_KEY")
+    c.acs.get(('NAME', 'B25034_010E'), {'for': 'state:%s' % states.MD})
 
-Full geometry specifications are available for `ACS <http://thedataweb.rm.census.gov/data/acs5geo.html>`_ and `SF1 <http://thedataweb.rm.census.gov/data/sf1geo.html>`_
+The call above will return the name of the geographic area and the number of
+homes that were built before 1939 for the state of Maryland. Helper methods have
+been created to simplify common geometry calls::
+
+    c.acs.state(('NAME', 'B25034_010E'), states.MD)
+
+Full details on geometries and the states module can be found below.
+
+
+`ACS <http://www.census.gov/developers/data/2010acs5_variables.xml>`_
+`SF1 <http://www.census.gov/developers/data/sf1.xml>`_
+
+
+Geometries
+==========
+
+The API supports a wide range of geographic regions. The specification of these
+can be quite complicated so a number of convenience methods are provided.
+
+Full geometry specifications are available for `ACS <http://thedataweb.rm.census.gov/data/acs5geo.html>`_
+and `SF1 <http://thedataweb.rm.census.gov/data/sf1geo.html>`_.
 
 ACS Geometries
 --------------
@@ -53,13 +74,6 @@ SF1 Geometries
 * state_district_place(fields, state_fips, district, place)
 * state_zip(fields, state_fips, zip)
 
-
-
-
-
-
-http://www.census.gov/developers/data/sf1.xml
-http://www.census.gov/developers/data/2010acs5_variables.xml
 
 States
 ======
