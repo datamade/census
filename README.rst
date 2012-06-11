@@ -34,9 +34,16 @@ been created to simplify common geometry calls::
 
 Full details on geometries and the states module can be found below.
 
+The get method is the core data access method on both the ACS and SF1 data sets.
+The first parameter is either a single string column or a tuple of columns. The
+second parameter is a geoemtry dict with a `for` key and on option `in` key. The
+`for` argument accepts a `"*"` wildcard character or `Census.ALL`. The wildcard
+is not valid for the `in` parameter.
 
-`ACS <http://www.census.gov/developers/data/2010acs5_variables.xml>`_
-`SF1 <http://www.census.gov/developers/data/sf1.xml>`_
+Valid columns by data set:
+
+* `ACS <http://www.census.gov/developers/data/2010acs5_variables.xml>`_
+* `SF1 <http://www.census.gov/developers/data/sf1.xml>`_
 
 
 Geometries
@@ -95,3 +102,18 @@ Convert FIPS to state abbreviation using the FIPS dict::
 Examples
 ========
 
+The geographic name for all census tracts for county 170 in Alaska::
+
+    c.sf1.get('NAME', geo={'for': 'tract:*', 'in': 'state:%s county:170' % states.AK})
+
+The same call using the `state_county_tract` convenience method::
+
+    c.sf1.state_county_tract('NAME', states.AK, '170', Census.ALL)
+
+Total number of males age 5 - 9 for all states:
+
+    c.acs.get('B01001_004E', {'for': 'state:*'})
+
+The same call using the state convenience method::
+
+    c.acs.state('B01001_004E', Census.ALL)
