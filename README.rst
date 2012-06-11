@@ -110,7 +110,7 @@ The same call using the `state_county_tract` convenience method::
 
     c.sf1.state_county_tract('NAME', states.AK, '170', Census.ALL)
 
-Total number of males age 5 - 9 for all states:
+Total number of males age 5 - 9 for all states::
 
     c.acs.get('B01001_004E', {'for': 'state:*'})
 
