@@ -20,8 +20,11 @@ class CensusException(Exception):
 
 class Client(object):
 
-    def __init__(self, key):
-        self._session = requests.session(params={'key': key})
+    def __init__(self, key, **kwargs):
+        if 'params' not in kwargs:
+            kwargs['params'] = {}
+        kwargs['params']['key'] = key
+        self._session = requests.session(**kwargs)
         self._key = key
 
     def fields(self, flat=False):
@@ -162,6 +165,6 @@ class SF1Client(Client):
 
 class Census(object):
 
-    def __init__(self, key):
-        self.acs = ACSClient(key)
-        self.sf1 = SF1Client(key)
+    def __init__(self, key, **kwargs):
+        self.acs = ACSClient(key, **kwargs)
+        self.sf1 = SF1Client(key, **kwargs)
