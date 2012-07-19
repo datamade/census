@@ -45,6 +45,13 @@ Valid columns by data set:
 * `ACS <http://www.census.gov/developers/data/2010acs5_variables.xml>`_
 * `SF1 <http://www.census.gov/developers/data/sf1.xml>`_
 
+You can pass additional keyword arguments to Census(), they will be used to
+invoke the requests.session() object. For example, a timeout of one second::
+
+    from census import Census
+
+    c = Census("MY_API_KEY", timeout=1.0)
+
 
 Geometries
 ==========
