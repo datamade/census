@@ -3,7 +3,7 @@ import requests
 from xml.etree.ElementTree import XML
 
 ALL = '*'
-ENDPOINT_URL = 'http://thedataweb.rm.census.gov/data/%s/%s'
+ENDPOINT_URL = 'http://api.census.gov/data/%s/%s'
 
 
 def list_or_str(v):
