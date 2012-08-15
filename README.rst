@@ -12,6 +12,7 @@ Requirements
 
 * python 2.6 or 2.7
 * requests
+* us
 
 
 Usage
@@ -21,16 +22,17 @@ First, get yourself a `Census API key <http://www.census.gov/developers/>`_.
 
 ::
 
-    from census import Census, states
+    from census import Census
+    from us import states
 
     c = Census("MY_API_KEY")
-    c.acs.get(('NAME', 'B25034_010E'), {'for': 'state:%s' % states.MD})
+    c.acs.get(('NAME', 'B25034_010E'), {'for': 'state:%s' % states.MD.fips})
 
 The call above will return the name of the geographic area and the number of
 homes that were built before 1939 for the state of Maryland. Helper methods have
 been created to simplify common geometry calls::
 
-    c.acs.state(('NAME', 'B25034_010E'), states.MD)
+    c.acs.state(('NAME', 'B25034_010E'), states.MD.fips)
 
 Full details on geometries and the states module can be found below.
 
@@ -85,18 +87,17 @@ SF1 Geometries
 States
 ======
 
-The states module makes it easy to convert between state abbreviations and FIPS
-codes. Access attributes by state abbreviation to get the corresponding FIPS
-code::
+This package previously had a `census.states` module, but now uses the
+*us* package. ::
 
-    >>> from census import states
-    >>> print states.MD
-    24
+    >>> from us import states
+    >>> print states.MD.fips
+    u'24'
 
-Convert FIPS to state abbreviation using the FIPS dict::
+Convert FIPS to state abbreviation using `lookup()`: ::
 
-    >>> print states.FIPS['24']
-    MD
+    >>> print states.lookup('24').abbr
+    u'MD'
 
 
 Examples
@@ -104,11 +105,11 @@ Examples
 
 The geographic name for all census tracts for county 170 in Alaska::
 
-    c.sf1.get('NAME', geo={'for': 'tract:*', 'in': 'state:%s county:170' % states.AK})
+    c.sf1.get('NAME', geo={'for': 'tract:*', 'in': 'state:%s county:170' % states.AK.fips})
 
 The same call using the `state_county_tract` convenience method::
 
-    c.sf1.state_county_tract('NAME', states.AK, '170', Census.ALL)
+    c.sf1.state_county_tract('NAME', states.AK.fips, '170', Census.ALL)
 
 Total number of males age 5 - 9 for all states::
 
