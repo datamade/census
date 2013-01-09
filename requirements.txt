@@ -1,2 +1,2 @@
-requests
+requests==1.0.4
 us==0.3

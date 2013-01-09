@@ -21,7 +21,7 @@ class CensusException(Exception):
 class Client(object):
 
     def __init__(self, key):
-        self._session = requests.session(params={'key': key})
+        self._session = requests.session()
         self._key = key
 
     def fields(self, flat=False):
@@ -52,6 +52,9 @@ class Client(object):
 
     def get(self, fields, geo, year=None):
 
+        if len(fields) > 50:
+            raise CensusException("only 50 columns per call are allowed")
+
         if year is None:
             year = self.default_year
 
@@ -62,6 +65,7 @@ class Client(object):
         params = {
             'get': ",".join(fields),
             'for': geo['for'],
+            'key': self._key,
         }
 
         if 'in' in geo:
@@ -86,78 +90,78 @@ class Client(object):
     def state(self, fields, state_fips, **kwargs):
         return self.get(fields, geo={
             'for': 'state:%s' % state_fips,
-        })
+        }, **kwargs)
 
-    def state_county(self, fields, state_fips, county_fips):
+    def state_county(self, fields, state_fips, county_fips, **kwargs):
         return self.get(fields, geo={
             'for': 'county:%s' % county_fips,
             'in': 'state:%s' % state_fips,
-        })
+        }, **kwargs)
 
-    def state_county_subdivision(self, fields, state_fips, county_fips, subdiv_fips):
+    def state_county_subdivision(self, fields, state_fips, county_fips, subdiv_fips, **kwargs):
         return self.get(fields, geo={
             'for': 'county subdivision:%s' % subdiv_fips,
             'in': 'state:%s county:%s' % (state_fips, county_fips),
-        })
+        }, **kwargs)
 
-    def state_county_tract(self, fields, state_fips, county_fips, tract):
+    def state_county_tract(self, fields, state_fips, county_fips, tract, **kwargs):
         return self.get(fields, geo={
             'for': 'tract:%s' % tract,
             'in': 'state:%s county:%s' % (state_fips, county_fips),
-        })
+        }, **kwargs)
 
-    def state_place(self, fields, state_fips, place):
+    def state_place(self, fields, state_fips, place, **kwargs):
         return self.get(fields, geo={
             'for': 'place:%s' % place,
             'in': 'state:%s' % state_fips,
-        })
+        }, **kwargs)
 
-    def state_district(self, fields, state_fips, district):
+    def state_district(self, fields, state_fips, district, **kwargs):
         return self.get(fields, geo={
             'for': 'congressional district:%s' % district,
             'in': 'state:%s' % state_fips,
-        })
+        }, **kwargs)
 
 
 class ACSClient(Client):
 
-    default_year = 2010
+    default_year = 2011
     dataset = 'acs5'
     fields_url = "http://www.census.gov/developers/data/2010acs5_variables.xml"
 
     def us(self, fields, **kwargs):
-        return self.get(fields, geo={'for': 'us:1'})
+        return self.get(fields, geo={'for': 'us:1'}, **kwargs)
 
 
 class SF1Client(Client):
 
-    default_year = 2010
+    default_year = 2011
     dataset = 'sf1'
     fields_url = "http://www.census.gov/developers/data/sf1.xml"
 
-    def state_msa(self, fields, state_fips, msa):
+    def state_msa(self, fields, state_fips, msa, **kwargs):
         return self.get(fields, geo={
             'for': 'metropolitan statistical area/micropolitan statistical area:%s' % msa,
             'in': 'state:%s' % state_fips,
-        })
+        }, **kwargs)
 
-    def state_csa(self, fields, state_fips, csa):
+    def state_csa(self, fields, state_fips, csa, **kwargs):
         return self.get(fields, geo={
             'for': 'combined statistical area:%s' % csa,
             'in': 'state:%s' % state_fips,
-        })
+        }, **kwargs)
 
-    def state_district_place(self, fields, state_fips, district, place):
+    def state_district_place(self, fields, state_fips, district, place, **kwargs):
         return self.get(fields, geo={
             'for': 'place:' % place,
             'in': 'state:%s congressional district:%s' % (state_fips, district),
-        })
+        }, **kwargs)
 
-    def state_zip(self, fields, state_fips, zip):
+    def state_zip(self, fields, state_fips, zip, **kwargs):
         return self.get(fields, geo={
             'for': 'zip code tabulation area:%s' % zip,
             'in': 'state:%s' % state_fips,
-        })
+        }, **kwargs)
 
 
 class Census(object):

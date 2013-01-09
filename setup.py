@@ -1,10 +1,11 @@
 from setuptools import setup, find_packages
+import census
 
 long_description = open('README.rst').read()
 
 setup(
       name="census",
-      version='0.3',
+      version=census.__version__,
       py_modules=['census'],
       author="Jeremy Carbaugh",
       author_email='jcarbaugh@sunlightfoundation.com',

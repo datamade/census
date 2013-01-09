@@ -47,6 +47,11 @@ Valid columns by data set:
 * `ACS <http://www.census.gov/developers/data/2010acs5_variables.xml>`_
 * `SF1 <http://www.census.gov/developers/data/sf1.xml>`_
 
+The default year is 2011. To access 2010 data, pass a year parameter to the
+API call::
+
+    c.acs.state(('NAME', 'B25034_010E'), states.MD.fips, year=2010)
+
 
 Geometries
 ==========
