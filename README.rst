@@ -39,7 +39,7 @@ API call::
 
     c.acs.state(('NAME', 'B25034_010E'), states.MD.fips, year=2010)
 
-The default year may also be set client-wide:
+The default year may also be set client-wide::
 
     c = Census("MY_API_KEY", year=2010)
 
