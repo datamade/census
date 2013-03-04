@@ -115,6 +115,22 @@ Convert FIPS to state abbreviation using `lookup()`: ::
     u'MD'
 
 
+BYOS - Bring Your Own Session
+=============================
+
+If you'd prefer to use a custom configured requests.Session, you can pass it
+to the Census constructor::
+
+    s = requests.session()
+    s.headers.update({'User-Agent': 'census-demo/0.0'})
+
+    c = Census("MY_API_KEY", session=s)
+
+You can also replace the session used by a specific data set::
+
+    c.sf1.session = s
+
+
 Examples
 ========
 
