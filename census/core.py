@@ -54,9 +54,9 @@ class UnsupportedYearException(CensusException):
 
 class Client(object):
 
-    def __init__(self, key, year=None):
-        self._session = requests.session()
+    def __init__(self, key, year=None, session=None):
         self._key = key
+        self.session = session or requests.session()
         if year:
             self.default_year = year
 
@@ -119,7 +119,7 @@ class Client(object):
         headers = {
             'User-Agent': 'python-census/%s github.com/sunlightlabs/census' % __version__
         }
-        resp = self._session.get(url, params=params, headers=headers)
+        resp = self.session.get(url, params=params, headers=headers)
 
         if resp.status_code == 200:
 
@@ -304,7 +304,11 @@ class Census(object):
 
     ALL = ALL
 
-    def __init__(self, key, year=None):
-        self.acs = ACSClient(key, year)
-        self.sf1 = SF1Client(key, year)
-        self.sf3 = SF3Client(key, year)
+    def __init__(self, key, year=None, session=None):
+
+        if not session:
+            session = requests.session()
+
+        self.acs = ACSClient(key, year, session)
+        self.sf1 = SF1Client(key, year, session)
+        self.sf3 = SF3Client(key, year, session)
