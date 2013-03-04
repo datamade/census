@@ -56,13 +56,13 @@ Geographies
 ===========
 
 The API supports a wide range of geographic regions. The specification of these
-can be quite complicated so a number of convenience methods are provided.
+can be quite complicated so a number of convenience methods are provided. Refer to the `Census API documentation <http://www.census.gov/developers/data/>`_
+for more geographies beyond the convenience methods.
 
-Refer to the `Census API documentation <http://www.census.gov/developers/data/>`_
-for more geographies beyond the helper methods provided here.
+*Not all geographies are supported in all years. Calling a convenience method
+with a year that is not supported will raise census.UnsupportedYearException.*
 
-Not all geographies are supported in all years. Calling a convenience method
-with a year that is not supported will raise census.UnsupportedYearException.
+`Geographic relationship files <http://www.census.gov/geo/maps-data/data/relationship.html>`_ are provided on the Census developer site as a tool to help users compare the geographies from the 1990, 2000 and 2010 Censuses. From these files, data users may determine how geographies from one Census relate to those from the prior Census.
 
 ACS Geometries
 --------------
