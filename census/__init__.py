@@ -1,3 +1,2 @@
-from census.core import Census, ALL
-
-__version__ = "0.4"
+from census.core import (Census, ALL,
+    CensusException, UnsupportedYearException, __version__)
