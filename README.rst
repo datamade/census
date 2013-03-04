@@ -4,15 +4,7 @@ census
 
 A simple wrapper for the United States Census Bureau's API.
 
-Provides access to both the ACS and SF1 data sets.
-
-
-Requirements
-============
-
-* python 2.6 or 2.7
-* requests
-* us
+Provides access to ACS, SF1, and SF3 data sets.
 
 
 Usage
@@ -42,25 +34,35 @@ second parameter is a geoemtry dict with a `for` key and on option `in` key. The
 `for` argument accepts a `"*"` wildcard character or `Census.ALL`. The wildcard
 is not valid for the `in` parameter.
 
-Valid columns by data set:
-
-* `ACS <http://www.census.gov/developers/data/2010acs5_variables.xml>`_
-* `SF1 <http://www.census.gov/developers/data/sf1.xml>`_
-
 The default year is 2011. To access 2010 data, pass a year parameter to the
 API call::
 
     c.acs.state(('NAME', 'B25034_010E'), states.MD.fips, year=2010)
 
+The default year may also be set client-wide:
 
-Geometries
-==========
+    c = Census("MY_API_KEY", year=2010)
+
+
+Datasets
+========
+
+* ACS (2011, 2010)
+* SF1 (2010, 2000, 1990)
+* SF3 (2000, 1990)
+
+
+Geographies
+===========
 
 The API supports a wide range of geographic regions. The specification of these
 can be quite complicated so a number of convenience methods are provided.
 
-Full geometry specifications are available for `ACS <http://thedataweb.rm.census.gov/data/acs5geo.html>`_
-and `SF1 <http://thedataweb.rm.census.gov/data/sf1geo.html>`_.
+Refer to the `Census API documentation <http://www.census.gov/developers/data/>`_
+for more geographies beyond the helper methods provided here.
+
+Not all geographies are supported in all years. Calling a convenience method
+with a year that is not supported will raise census.UnsupportedYearException.
 
 ACS Geometries
 --------------
@@ -72,7 +74,7 @@ ACS Geometries
 * state_place(fields, state_fips, place)
 * state_district(fields, state_fips, district)
 * us(fields)
-
+* zipcode(fields, zip5)
 
 SF1 Geometries
 --------------
@@ -86,7 +88,15 @@ SF1 Geometries
 * state_msa(fields, state_fips, msa)
 * state_csa(fields, state_fips, csa)
 * state_district_place(fields, state_fips, district, place)
-* state_zip(fields, state_fips, zip)
+* state_zipcode(fields, state_fips, zip5)
+
+SF3 Geometries
+--------------
+
+* state(fields, state_fips)
+* state_county(fields, state_fips, county_fips)
+* state_county_tract(fields, state_fips, county_fips, tract)
+* state_place(fields, state_fips, place)
 
 
 States
