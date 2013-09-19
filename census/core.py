@@ -3,7 +3,7 @@ from xml.etree.ElementTree import XML
 import json
 import requests
 
-__version__ = "0.5"
+__version__ = "0.6"
 
 ALL = '*'
 ENDPOINT_URL = 'http://api.census.gov/data/%s/%s'
@@ -11,6 +11,9 @@ DEFINITIONS = {
     'acs5': {
         '2011': 'http://www.census.gov/developers/data/acs_5yr_2011_var.xml',
         '2010': 'http://www.census.gov/developers/data/acs_5yr_2010_var.xml',
+    },
+    'acs1/profile': {
+        '2012': 'http://www.census.gov/developers/data/acs_1yr_profile_2012.xml',
     },
     'sf1': {
         '2010': 'http://www.census.gov/developers/data/sf1.xml',
@@ -135,7 +138,7 @@ class Client(object):
             raise CensusException(resp.text)
 
 
-class ACSClient(Client):
+class ACS5Client(Client):
 
     default_year = 2011
     dataset = 'acs5'
@@ -191,6 +194,27 @@ class ACSClient(Client):
             'for': 'zip code tabulation area:%s' % zcta,
         }, **kwargs)
 
+class ACS1DpClient(Client):
+
+    default_year = 2012
+    dataset = 'acs1/profile'
+
+    @supported_years(2012)
+    def us(self, fields, **kwargs):
+        return self.get(fields, geo={'for': 'us:1'}, **kwargs)
+
+    @supported_years(2012)
+    def state(self, fields, state_fips, **kwargs):
+        return self.get(fields, geo={
+            'for': 'state:%s' % state_fips,
+        }, **kwargs)
+
+    @supported_years(2012)
+    def state_district(self, fields, state_fips, district, **kwargs):
+        return self.get(fields, geo={
+            'for': 'congressional district:%s' % district,
+            'in': 'state:%s' % state_fips,
+        }, **kwargs)
 
 class SF1Client(Client):
 
@@ -309,6 +333,8 @@ class Census(object):
         if not session:
             session = requests.session()
 
-        self.acs = ACSClient(key, year, session)
+        self.acs = ACS5Client(key, year, session)
+        self.acs5 = ACS5Client(key, year, session)
+        self.acs1dp = ACS1DpClient(key, year, session)
         self.sf1 = SF1Client(key, year, session)
         self.sf3 = SF3Client(key, year, session)
