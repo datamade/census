@@ -26,6 +26,13 @@ DEFINITIONS = {
     },
 }
 
+class APIKeyError(Exception):
+    '''Invalid API Key'''
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+
 
 def list_or_str(v):
     """ Convert a single value into a list.
@@ -125,8 +132,13 @@ class Client(object):
         resp = self.session.get(url, params=params, headers=headers)
 
         if resp.status_code == 200:
-
-            data = json.loads(resp.text)
+            try:
+                data = json.loads(resp.text)
+            except ValueError as ex:
+                if '<title>Invalid Key</title>' in resp.text:
+                    raise APIKeyError(' '.join(resp.text.splitlines()))
+                else:
+                    raise ex
 
             headers = data[0]
             return [dict(zip(headers, d)) for d in data[1:]]
