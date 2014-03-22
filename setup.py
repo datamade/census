@@ -1,11 +1,17 @@
 from setuptools import setup, find_packages
-import census
 
 long_description = open('README.rst').read()
 
+
+with open("census/__init__.py", "r") as module_file:
+    for line in module_file:
+        if line.startswith("__version__"):
+            version_string = line.split("=")[1]
+            version = version_string.strip().replace("'", "")
+
 setup(
     name="census",
-    version=census.__version__,
+    version=version,
     py_modules=['census'],
     author="Jeremy Carbaugh",
     author_email='jcarbaugh@sunlightfoundation.com',

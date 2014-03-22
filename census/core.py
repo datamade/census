@@ -3,7 +3,6 @@ from xml.etree.ElementTree import XML
 import json
 import requests
 
-__version__ = "0.6"
 
 ALL = '*'
 ENDPOINT_URL = 'http://api.census.gov/data/%s/%s'
