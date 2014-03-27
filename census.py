@@ -1,3 +1,6 @@
+__title__ = "census"
+__version__ = "0.6"
+
 from functools import wraps
 from xml.etree.ElementTree import XML
 import json
@@ -25,10 +28,12 @@ DEFINITIONS = {
     },
 }
 
+
 class APIKeyError(Exception):
     '''Invalid API Key'''
     def __init__(self, value):
         self.value = value
+
     def __str__(self):
         return repr(self.value)
 
@@ -205,6 +210,7 @@ class ACS5Client(Client):
             'for': 'zip code tabulation area:%s' % zcta,
         }, **kwargs)
 
+
 class ACS1DpClient(Client):
 
     default_year = 2012
@@ -226,6 +232,7 @@ class ACS1DpClient(Client):
             'for': 'congressional district:%s' % district,
             'in': 'state:%s' % state_fips,
         }, **kwargs)
+
 
 class SF1Client(Client):
 

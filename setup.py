@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 long_description = open('README.rst').read()
 
 
-with open("census/__init__.py", "r") as module_file:
+with open("census.py", "r") as module_file:
     for line in module_file:
         if line.startswith("__version__"):
             version_string = line.split("=")[1]
