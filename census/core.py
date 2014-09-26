@@ -9,20 +9,20 @@ ALL = '*'
 ENDPOINT_URL = 'http://api.census.gov/data/%s/%s'
 DEFINITIONS = {
     'acs5': {
-        '2011': 'http://www.census.gov/developers/data/acs_5yr_2011_var.xml',
-        '2010': 'http://www.census.gov/developers/data/acs_5yr_2010_var.xml',
+        '2011': 'http://api.census.gov/data/2011/acs5/variables.xml',
+        '2010': 'http://api.census.gov/data/2010/acs5/variables.xml',
     },
     'acs1/profile': {
-        '2012': 'http://www.census.gov/developers/data/acs_1yr_profile_2012.xml',
+        '2012': 'http://api.census.gov/data/2012/acs1/variables.xml',
     },
     'sf1': {
-        '2010': 'http://www.census.gov/developers/data/sf1.xml',
-        '2000': 'http://www.census.gov/developers/data/2000_sf1.xml',
-        '1990': 'http://www.census.gov/developers/data/1990_sf1.xml',
+        '2010': 'http://api.census.gov/data/2010/sf1/variables.xml',
+        '2000': 'http://api.census.gov/data/2000/sf1/variables.xml',
+        '1990': 'http://api.census.gov/data/1990/sf1/variables.xml',
     },
     'sf3': {
-        '2000': 'http://www.census.gov/developers/data/2000_sf3.xml',
-        '1990': 'http://www.census.gov/developers/data/1990_sf3.xml',
+        '2000': 'http://api.census.gov/data/2000/sf3/variables.xml',
+        '1990': 'http://api.census.gov/data/1990/sf3/variables.xml',
     },
 }
 
