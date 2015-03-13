@@ -34,7 +34,7 @@ second parameter is a geoemtry dict with a `for` key and on option `in` key. The
 `for` argument accepts a `"*"` wildcard character or `Census.ALL`. The wildcard
 is not valid for the `in` parameter.
 
-The default year is 2011. To access 2010 data, pass a year parameter to the
+The default year is 2013. To access earlier data, pass a year parameter to the
 API call::
 
     c.acs.state(('NAME', 'B25034_010E'), states.MD.fips, year=2010)
@@ -47,7 +47,7 @@ The default year may also be set client-wide::
 Datasets
 ========
 
-* ACS5: ACS 5 Year Estimates (2011, 2010)
+* ACS5: ACS 5 Year Estimates (2013, 2012, 2011, 2010)
 * ACS1DP: ACS 1 Year Estimates, Data Profiles (2012)
 * SF1: Census Summary File 1 (2010, 2000, 1990)
 * SF3: Census Summary File 3 (2000, 1990)
@@ -70,6 +70,7 @@ ACS5 Geographies
 
 * state(fields, state_fips)
 * state_county(fields, state_fips, county_fips)
+* state_county_blockgroup(fields, state_fips, county_fips, blockgroup)
 * state_county_subdivision(fields, state_fips, county_fips, subdiv_fips)
 * state_county_tract(fields, state_fips, county_fips, tract)
 * state_place(fields, state_fips, place)
