@@ -270,6 +270,13 @@ class SF1Client(Client):
         }, **kwargs)
 
     @supported_years(2010, 2000, 1990)
+    def state_county_blockgroup(self, fields, state_fips, county_fips, blockgroup, **kwargs):
+        return self.get(fields, geo={
+            'for': 'block group:%s' % blockgroup,
+            'in': 'state:%s county:%s' % (state_fips, county_fips),
+        }, **kwargs)
+
+    @supported_years(2010, 2000, 1990)
     def state_place(self, fields, state_fips, place, **kwargs):
         return self.get(fields, geo={
             'for': 'place:%s' % place,
@@ -334,6 +341,13 @@ class SF3Client(Client):
     def state_county_tract(self, fields, state_fips, county_fips, tract, **kwargs):
         return self.get(fields, geo={
             'for': 'tract:%s' % tract,
+            'in': 'state:%s county:%s' % (state_fips, county_fips),
+        }, **kwargs)
+
+    @supported_years(2000, 1990)
+    def state_county_blockgroup(self, fields, state_fips, county_fips, blockgroup, **kwargs):
+        return self.get(fields, geo={
+            'for': 'block group:%s' % blockgroup,
             'in': 'state:%s county:%s' % (state_fips, county_fips),
         }, **kwargs)
 
