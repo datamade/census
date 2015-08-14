@@ -364,7 +364,6 @@ class Census(object):
     ALL = ALL
 
     def __init__(self, key, year=None, session=None):
-        import requests
 
         if not session:
             session = requests.session()
