@@ -66,7 +66,7 @@ class UnsupportedYearException(CensusException):
 class Client(object):
 
     def __init__(self, key, year=None, session=None):
-	global requests
+        global requests
         import requests
         self._key = key
         self.session = session or requests.session()
