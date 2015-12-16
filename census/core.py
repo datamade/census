@@ -8,6 +8,7 @@ ALL = '*'
 ENDPOINT_URL = 'http://api.census.gov/data/%s/%s'
 DEFINITIONS = {
     'acs5': {
+        '2014'  'http://api.census.gov/data/2014/acs5/variables.xml'
         '2013': 'http://api.census.gov/data/2013/acs5/variables.xml',
         '2012': 'http://api.census.gov/data/2012/acs5/variables.xml',
         '2011': 'http://api.census.gov/data/2011/acs5/variables.xml',
@@ -154,62 +155,62 @@ class Client(object):
 
 class ACS5Client(Client):
 
-    default_year = 2013
+    default_year = 2014
     dataset = 'acs5'
 
-    @supported_years(2013, 2012, 2011, 2010)
+    @supported_years(2014, 2013, 2012, 2011, 2010)
     def us(self, fields, **kwargs):
         return self.get(fields, geo={'for': 'us:1'}, **kwargs)
 
-    @supported_years(2013, 2012, 2011, 2010)
+    @supported_years(2014, 2013, 2012, 2011, 2010)
     def state(self, fields, state_fips, **kwargs):
         return self.get(fields, geo={
             'for': 'state:%s' % state_fips,
         }, **kwargs)
 
-    @supported_years(2013, 2012, 2011, 2010)
+    @supported_years(2014, 2013, 2012, 2011, 2010)
     def state_county(self, fields, state_fips, county_fips, **kwargs):
         return self.get(fields, geo={
             'for': 'county:%s' % county_fips,
             'in': 'state:%s' % state_fips,
         }, **kwargs)
 
-    @supported_years(2013, 2012, 2011, 2010)
+    @supported_years(2014, 2013, 2012, 2011, 2010)
     def state_county_subdivision(self, fields, state_fips, county_fips, subdiv_fips, **kwargs):
         return self.get(fields, geo={
             'for': 'county subdivision:%s' % subdiv_fips,
             'in': 'state:%s county:%s' % (state_fips, county_fips),
         }, **kwargs)
 
-    @supported_years(2013, 2012, 2011, 2010)
+    @supported_years(2014, 2013, 2012, 2011, 2010)
     def state_county_tract(self, fields, state_fips, county_fips, tract, **kwargs):
         return self.get(fields, geo={
             'for': 'tract:%s' % tract,
             'in': 'state:%s county:%s' % (state_fips, county_fips),
         }, **kwargs)
 
-    @supported_years(2013, 2012, 2011, 2010)
+    @supported_years(2014, 2013, 2012, 2011, 2010)
     def state_county_blockgroup(self, fields, state_fips, county_fips, blockgroup, **kwargs):
         return self.get(fields, geo={
             'for': 'block group:%s' % blockgroup,
             'in': 'state:%s county:%s' % (state_fips, county_fips),
         }, **kwargs)
 
-    @supported_years(2013, 2012, 2011, 2010)
+    @supported_years(2014, 2013, 2012, 2011, 2010)
     def state_place(self, fields, state_fips, place, **kwargs):
         return self.get(fields, geo={
             'for': 'place:%s' % place,
             'in': 'state:%s' % state_fips,
         }, **kwargs)
 
-    @supported_years(2013, 2012, 2011, 2010)
+    @supported_years(2014, 2013, 2012, 2011, 2010)
     def state_district(self, fields, state_fips, district, **kwargs):
         return self.get(fields, geo={
             'for': 'congressional district:%s' % district,
             'in': 'state:%s' % state_fips,
         }, **kwargs)
 
-    @supported_years(2013, 2012, 2011)
+    @supported_years(2014, 2013, 2012, 2011)
     def zipcode(self, fields, zcta, **kwargs):
         return self.get(fields, geo={
             'for': 'zip code tabulation area:%s' % zcta,
