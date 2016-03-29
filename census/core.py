@@ -255,7 +255,7 @@ class SF1Client(Client):
             'in': 'state:%s' % state_fips,
         }, **kwargs)
 
-    @supported_years(2010)
+    @supported_years(2000, 2010)
     def state_county_subdivision(self, fields, state_fips, county_fips, subdiv_fips, **kwargs):
         return self.get(fields, geo={
             'for': 'county subdivision:%s' % subdiv_fips,
