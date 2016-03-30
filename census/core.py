@@ -1,6 +1,7 @@
 from functools import wraps
 from xml.etree.ElementTree import XML
 import json
+import requests
 
 __version__ = "0.7"
 
@@ -28,17 +29,19 @@ DEFINITIONS = {
     },
 }
 
+
 class APIKeyError(Exception):
     '''Invalid API Key'''
+
     def __init__(self, value):
         self.value = value
+
     def __str__(self):
         return repr(self.value)
 
 
 def list_or_str(v):
-    """ Convert a single value into a list.
-    """
+    """Convert a single value into a list."""
     if isinstance(v, (list, tuple)):
         return v
     return [v]
@@ -66,8 +69,9 @@ class UnsupportedYearException(CensusException):
 
 class Client(object):
 
+    dataset = None
+
     def __init__(self, key, year=None, session=None):
-        import requests
         self._key = key
         self.session = session or requests.session()
         if year:
@@ -216,6 +220,7 @@ class ACS5Client(Client):
             'for': 'zip code tabulation area:%s' % zcta,
         }, **kwargs)
 
+
 class ACS1DpClient(Client):
 
     default_year = 2012
@@ -237,6 +242,7 @@ class ACS1DpClient(Client):
             'for': 'congressional district:%s' % district,
             'in': 'state:%s' % state_fips,
         }, **kwargs)
+
 
 class SF1Client(Client):
 
@@ -365,8 +371,6 @@ class Census(object):
     ALL = ALL
 
     def __init__(self, key, year=None, session=None):
-        import requests
-
         if not session:
             session = requests.session()
 
