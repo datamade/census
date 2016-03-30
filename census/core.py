@@ -8,7 +8,7 @@ ALL = '*'
 ENDPOINT_URL = 'http://api.census.gov/data/%s/%s'
 DEFINITIONS = {
     'acs5': {
-        '2014'  'http://api.census.gov/data/2014/acs5/variables.xml'
+        '2014': 'http://api.census.gov/data/2014/acs5/variables.xml',
         '2013': 'http://api.census.gov/data/2013/acs5/variables.xml',
         '2012': 'http://api.census.gov/data/2012/acs5/variables.xml',
         '2011': 'http://api.census.gov/data/2011/acs5/variables.xml',
