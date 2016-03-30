@@ -66,7 +66,7 @@ with a year that is not supported will raise census.UnsupportedYearException.*
 `Geographic relationship files <http://www.census.gov/geo/maps-data/data/relationship.html>`_ are provided on the Census developer site as a tool to help users compare the geographies from the 1990, 2000 and 2010 Censuses. From these files, data users may determine how geographies from one Census relate to those from the prior Census.
 
 ACS5 Geographies
---------------
+----------------
 
 * state(fields, state_fips)
 * state_county(fields, state_fips, county_fips)
@@ -79,14 +79,14 @@ ACS5 Geographies
 * zipcode(fields, zip5)
 
 ACS1 Geographies
---------------
+----------------
 
 * state(fields, state_fips)
 * state_district(fields, state_fips, district)
 * us(fields)
 
 SF1 Geographies
---------------
+---------------
 
 * state(fields, state_fips)
 * state_county(fields, state_fips, county_fips)
