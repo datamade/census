@@ -1,4 +1,5 @@
 import json
+import warnings
 from functools import wraps
 
 import requests
@@ -58,6 +59,7 @@ def supported_years(*years):
                 raise UnsupportedYearException(
                     'geography is not available in {}'.format(year))
             return func(self, *args, **kwargs)
+        wrapper.supported_years = years
         return wrapper
     return inner
 
@@ -114,7 +116,7 @@ class Client(object):
 
         return data
 
-    def get(self, fields, geo, year=None):
+    def get(self, fields, geo, year=None, **kwargs):
 
         if len(fields) > 50:
             raise CensusException("only 50 columns per call are allowed")
@@ -199,12 +201,15 @@ class ACS5Client(Client):
         }, **kwargs)
 
     @supported_years(2014, 2013, 2012, 2011, 2010)
-    def state_county_blockgroup(self, fields, state_fips,
-                                county_fips, blockgroup, **kwargs):
-        return self.get(fields, geo={
+    def state_county_blockgroup(self, fields, state_fips, county_fips,
+                                blockgroup, tract=None, **kwargs):
+        geo = {
             'for': 'block group:{}'.format(blockgroup),
             'in': 'state:{} county:{}'.format(state_fips, county_fips),
-        }, **kwargs)
+        }
+        if tract:
+            geo['in'] += ' tract:{}'.format(tract)
+        return self.get(fields, geo=geo, **kwargs)
 
     @supported_years(2014, 2013, 2012, 2011, 2010)
     def state_place(self, fields, state_fips, place, **kwargs):
@@ -285,12 +290,15 @@ class SF1Client(Client):
         }, **kwargs)
 
     @supported_years(2010, 2000, 1990)
-    def state_county_blockgroup(self, fields, state_fips,
-                                county_fips, blockgroup, **kwargs):
-        return self.get(fields, geo={
+    def state_county_blockgroup(self, fields, state_fips, county_fips,
+                                blockgroup, tract=None, **kwargs):
+        geo = {
             'for': 'block group:{}'.format(blockgroup),
             'in': 'state:{} county:{}'.format(state_fips, county_fips),
-        }, **kwargs)
+        }
+        if tract:
+            geo['in'] += ' tract:{}'.format(tract)
+        return self.get(fields, geo=geo, **kwargs)
 
     @supported_years(2010, 2000, 1990)
     def state_place(self, fields, state_fips, place, **kwargs):
@@ -365,12 +373,15 @@ class SF3Client(Client):
         }, **kwargs)
 
     @supported_years(2000, 1990)
-    def state_county_blockgroup(self, fields, state_fips,
-                                county_fips, blockgroup, **kwargs):
-        return self.get(fields, geo={
+    def state_county_blockgroup(self, fields, state_fips, county_fips,
+                                blockgroup, tract=None, **kwargs):
+        geo = {
             'for': 'block group:{}'.format(blockgroup),
             'in': 'state:{} county:{}'.format(state_fips, county_fips),
-        }, **kwargs)
+        }
+        if tract:
+            geo['in'] += ' tract:{}'.format(tract)
+        return self.get(fields, geo=geo, **kwargs)
 
     @supported_years(2000, 1990)
     def state_place(self, fields, state_fips, place, **kwargs):
@@ -389,8 +400,15 @@ class Census(object):
         if not session:
             session = requests.session()
 
-        self.acs = ACS5Client(key, year, session)
+        self.session = session
+
+        self._acs = ACS5Client(key, year, session)  # deprecated
         self.acs5 = ACS5Client(key, year, session)
         self.acs1dp = ACS1DpClient(key, year, session)
         self.sf1 = SF1Client(key, year, session)
         self.sf3 = SF3Client(key, year, session)
+
+    @property
+    def acs(self):
+        warnings.warn('Use acs5 instead of acs', DeprecationWarning)
+        return self._acs
