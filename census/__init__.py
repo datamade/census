@@ -1,2 +1,2 @@
-from census.core import (Census, ALL,
-    CensusException, UnsupportedYearException, __version__)
+from census.core import (Census, ALL, CensusException,
+                         UnsupportedYearException, __version__)
