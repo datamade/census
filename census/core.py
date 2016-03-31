@@ -2,7 +2,7 @@ from functools import wraps
 from xml.etree.ElementTree import XML
 import json
 
-__version__ = "0.7"
+__version__ = "0.7.1"
 
 ALL = '*'
 ENDPOINT_URL = 'http://api.census.gov/data/%s/%s'
@@ -67,6 +67,7 @@ class UnsupportedYearException(CensusException):
 class Client(object):
 
     def __init__(self, key, year=None, session=None):
+        global requests
         import requests
         self._key = key
         self.session = session or requests.session()
