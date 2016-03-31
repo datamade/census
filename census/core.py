@@ -310,7 +310,7 @@ class SF1Client(Client):
     def state_msa(self, fields, state_fips, msa, **kwargs):
         return self.get(fields, geo={
             'for': ('metropolitan statistical area/' +
-                    'micropolitan statistical area:{}'.format(msa))
+                    'micropolitan statistical area:{}'.format(msa)),
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 
