@@ -1,6 +1,7 @@
 import json
 from functools import wraps
-from xml.etree.ElementTree import XML
+
+import requests
 
 __version__ = "0.7"
 
@@ -8,23 +9,23 @@ ALL = '*'
 ENDPOINT_URL = 'http://api.census.gov/data/%s/%s'
 DEFINITIONS = {
     'acs5': {
-        '2014': 'http://api.census.gov/data/2014/acs5/variables.xml',
-        '2013': 'http://api.census.gov/data/2013/acs5/variables.xml',
-        '2012': 'http://api.census.gov/data/2012/acs5/variables.xml',
-        '2011': 'http://api.census.gov/data/2011/acs5/variables.xml',
-        '2010': 'http://api.census.gov/data/2010/acs5/variables.xml',
+        '2014': 'http://api.census.gov/data/2014/acs5/variables.json',
+        '2013': 'http://api.census.gov/data/2013/acs5/variables.json',
+        '2012': 'http://api.census.gov/data/2012/acs5/variables.json',
+        '2011': 'http://api.census.gov/data/2011/acs5/variables.json',
+        '2010': 'http://api.census.gov/data/2010/acs5/variables.json',
     },
     'acs1/profile': {
-        '2012': 'http://api.census.gov/data/2012/acs1/variables.xml',
+        '2012': 'http://api.census.gov/data/2012/acs1/variables.json',
     },
     'sf1': {
-        '2010': 'http://api.census.gov/data/2010/sf1/variables.xml',
-        '2000': 'http://api.census.gov/data/2000/sf1/variables.xml',
-        '1990': 'http://api.census.gov/data/1990/sf1/variables.xml',
+        '2010': 'http://api.census.gov/data/2010/sf1/variables.json',
+        '2000': 'http://api.census.gov/data/2000/sf1/variables.json',
+        '1990': 'http://api.census.gov/data/1990/sf1/variables.json',
     },
     'sf3': {
-        '2000': 'http://api.census.gov/data/2000/sf3/variables.xml',
-        '1990': 'http://api.census.gov/data/1990/sf3/variables.xml',
+        '2000': 'http://api.census.gov/data/2000/sf3/variables.json',
+        '1990': 'http://api.census.gov/data/1990/sf3/variables.json',
     },
 }
 
@@ -72,7 +73,6 @@ class UnsupportedYearException(CensusException):
 class Client(object):
 
     def __init__(self, key, year=None, session=None):
-        import requests
         self._key = key
         self.session = session or requests.session()
         if year:
@@ -82,7 +82,9 @@ class Client(object):
     def years(self):
         return [int(y) for y in DEFINITIONS[self.dataset].keys()]
 
-    def fields(self, year, flat=False):
+    def fields(self, year=None, flat=False):
+        if year is None:
+            year = self.default_year
 
         data = {}
 
@@ -93,26 +95,22 @@ class Client(object):
                 '{} is not available for {}'.format(self.dataset, year))
 
         resp = requests.get(fields_url)
-        doc = XML(resp.text)
+        obj = json.loads(resp.text)
 
         if flat:
 
-            for elem in doc.iter('variable'):
-                data[elem.attrib['name']] = "{}: {}".format(
-                    elem.attrib['concept'], elem.text)
+            for key, elem in obj['variables'].items():
+                if key in ['for', 'in']:
+                    continue
+                data[key] = "{}: {}".format(elem['concept'], elem['label'])
 
         else:
 
-            for concept_elem in doc.iter('concept'):
-
-                concept = concept_elem.attrib['name']
-                variables = {}
-
-                for variable_elem in concept_elem.iter('variable'):
-                    variables[variable_elem.attrib['name']] = \
-                        variable_elem.text
-
-                data[concept] = variables
+            data = obj['variables']
+            if 'for' in data:
+                data.pop("for", None)
+            if 'in' in data:
+                data.pop("in", None)
 
         return data
 
@@ -387,7 +385,6 @@ class Census(object):
     ALL = ALL
 
     def __init__(self, key, year=None, session=None):
-        import requests
 
         if not session:
             session = requests.session()
