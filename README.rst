@@ -18,7 +18,8 @@ First, get yourself a `Census API key <http://www.census.gov/developers/>`_.
     from us import states
 
     c = Census("MY_API_KEY")
-    c.acs.get(('NAME', 'B25034_010E'), {'for': 'state:%s' % states.MD.fips})
+    c.acs.get(('NAME', 'B25034_010E'),
+              {'for': 'state:{}'.format(states.MD.fips)})
 
 The call above will return the name of the geographic area and the number of
 homes that were built before 1939 for the state of Maryland. Helper methods have
@@ -145,7 +146,8 @@ Examples
 
 The geographic name for all census tracts for county 170 in Alaska::
 
-    c.sf1.get('NAME', geo={'for': 'tract:*', 'in': 'state:%s county:170' % states.AK.fips})
+    c.sf1.get('NAME', geo={'for': 'tract:*',
+                           'in': 'state:{} county:170'.format(states.AK.fips)})
 
 The same call using the `state_county_tract` convenience method::
 
