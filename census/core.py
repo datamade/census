@@ -270,7 +270,7 @@ class SF1Client(Client):
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 
-    @supported_years(2010)
+    @supported_years(2010, 2000)
     def state_county_subdivision(self, fields, state_fips,
                                  county_fips, subdiv_fips, **kwargs):
         return self.get(fields, geo={
