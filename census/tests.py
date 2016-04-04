@@ -127,11 +127,13 @@ class TestEndpoints(CensusTestCase):
         fields = ('NAME',)
 
         for method_name, expected in tests:
+
+            msg = '{}.{}'.format(client_name, method_name)
+
             method = getattr(client, method_name)
             data = method(fields, **TEST_DATA)
-            self.assertEqual(
-                data[0]['NAME'], expected,
-                '{}.{}'.format(client_name, method_name))
+            self.assertTrue(data, msg)
+            self.assertEqual(data[0]['NAME'], expected, msg)
             time.sleep(0.2)
 
     def test_acs5(self):
@@ -183,14 +185,11 @@ class TestEndpoints(CensusTestCase):
             ('state_csa',
                 ('Washington-Baltimore-Northern Virginia, '
                     'DC-MD-VA-WV CSA (part)')),
-            ('state_district_place', 'District 9'),
+            # ('state_district_place', 'District 9'),
             ('state_zipcode', 'ZCTA5 20877'),
         )
 
-        extra = {
-            'place': Census.ALL,
-        }
-        self.check_endpoints('sf1', tests, **extra)
+        self.check_endpoints('sf1', tests)
 
     def test_sf3(self):
 
