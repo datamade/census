@@ -118,7 +118,10 @@ class TestUnsupportedYears(CensusTestCase):
 
 class TestEndpoints(CensusTestCase):
 
-    def check_endpoints(self, client_name, tests):
+    def check_endpoints(self, client_name, tests, **kwargs):
+
+        if kwargs:
+            tests = ((k, kwargs.get(k, v)) for k, v in tests)
 
         client = self.client(client_name)
         fields = ('NAME',)
@@ -126,7 +129,9 @@ class TestEndpoints(CensusTestCase):
         for method_name, expected in tests:
             method = getattr(client, method_name)
             data = method(fields, **TEST_DATA)
-            self.assertEqual(data[0]['NAME'], expected)
+            self.assertEqual(
+                data[0]['NAME'], expected,
+                '{}.{}'.format(client_name, method_name))
             time.sleep(0.2)
 
     def test_acs5(self):
@@ -178,11 +183,14 @@ class TestEndpoints(CensusTestCase):
             ('state_csa',
                 ('Washington-Baltimore-Northern Virginia, '
                     'DC-MD-VA-WV CSA (part)')),
-            # ('state_district_place', 'District 9'),
+            ('state_district_place', 'District 9'),
             ('state_zipcode', 'ZCTA5 20877'),
         )
 
-        self.check_endpoints('sf1', tests)
+        extra = {
+            'place': Census.ALL,
+        }
+        self.check_endpoints('sf1', tests, **extra)
 
     def test_sf3(self):
 
