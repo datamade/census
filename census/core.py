@@ -2,8 +2,6 @@ import json
 import warnings
 from functools import wraps
 
-import requests
-
 __version__ = "0.7"
 
 ALL = '*'
@@ -29,6 +27,11 @@ DEFINITIONS = {
         '1990': 'http://api.census.gov/data/1990/sf3/variables.json',
     },
 }
+
+
+def new_session(*args, **kwargs):
+    import requests
+    return requests.session(*args, **kwargs)
 
 
 class APIKeyError(Exception):
@@ -76,7 +79,7 @@ class Client(object):
 
     def __init__(self, key, year=None, session=None):
         self._key = key
-        self.session = session or requests.session()
+        self.session = session or new_session()
         if year:
             self.default_year = year
 
@@ -96,7 +99,7 @@ class Client(object):
             raise CensusException(
                 '{} is not available for {}'.format(self.dataset, year))
 
-        resp = requests.get(fields_url)
+        resp = self.session.get(fields_url)
         obj = json.loads(resp.text)
 
         if flat:
@@ -398,7 +401,7 @@ class Census(object):
     def __init__(self, key, year=None, session=None):
 
         if not session:
-            session = requests.session()
+            session = new_session()
 
         self.session = session
 
