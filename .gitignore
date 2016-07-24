@@ -1,4 +1,6 @@
 *.pyc
 .DS_Store
 .env
+.cache/
+.tox/
 build/
