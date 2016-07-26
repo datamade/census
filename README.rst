@@ -18,14 +18,14 @@ First, get yourself a `Census API key <http://www.census.gov/developers/>`_.
     from us import states
 
     c = Census("MY_API_KEY")
-    c.acs.get(('NAME', 'B25034_010E'),
+    c.acs5.get(('NAME', 'B25034_010E'),
               {'for': 'state:{}'.format(states.MD.fips)})
 
 The call above will return the name of the geographic area and the number of
 homes that were built before 1939 for the state of Maryland. Helper methods have
 been created to simplify common geometry calls::
 
-    c.acs.state(('NAME', 'B25034_010E'), states.MD.fips)
+    c.acs5.state(('NAME', 'B25034_010E'), states.MD.fips)
 
 Full details on geometries and the states module can be found below.
 
@@ -38,7 +38,7 @@ is not valid for the `in` parameter.
 The default year is 2013. To access earlier data, pass a year parameter to the
 API call::
 
-    c.acs.state(('NAME', 'B25034_010E'), states.MD.fips, year=2010)
+    c.acs5.state(('NAME', 'B25034_010E'), states.MD.fips, year=2010)
 
 The default year may also be set client-wide::
 
@@ -48,10 +48,10 @@ The default year may also be set client-wide::
 Datasets
 ========
 
-* ACS5: ACS 5 Year Estimates (2013, 2012, 2011, 2010)
-* ACS1DP: ACS 1 Year Estimates, Data Profiles (2012)
-* SF1: Census Summary File 1 (2010, 2000, 1990)
-* SF3: Census Summary File 3 (2000, 1990)
+* acs5: ACS 5 Year Estimates (2013, 2012, 2011, 2010)
+* acs1dp: ACS 1 Year Estimates, Data Profiles (2012)
+* sf1: Census Summary File 1 (2010, 2000, 1990)
+* sf3: Census Summary File 3 (2000, 1990)
 
 
 Geographies
@@ -155,8 +155,8 @@ The same call using the `state_county_tract` convenience method::
 
 Total number of males age 5 - 9 for all states::
 
-    c.acs.get('B01001_004E', {'for': 'state:*'})
+    c.acs5.get('B01001_004E', {'for': 'state:*'})
 
 The same call using the state convenience method::
 
-    c.acs.state('B01001_004E', Census.ALL)
+    c.acs5.state('B01001_004E', Census.ALL)
