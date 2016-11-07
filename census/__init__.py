@@ -1,7 +1,7 @@
 from census.core import (ALL, CensusException,
                          UnsupportedYearException, __version__)
 try:
-    import pyesridump, shapely
+    import esridump, shapely
 except ImportError:
     from census.core import Census
 else:
