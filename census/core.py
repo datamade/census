@@ -2,7 +2,7 @@ import json
 import warnings
 from functools import wraps
 
-__version__ = "0.8.1"
+__version__ = "0.8.2"
 
 ALL = '*'
 ENDPOINT_URL = 'http://api.census.gov/data/%s/%s'
