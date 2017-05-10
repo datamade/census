@@ -1,6 +1,8 @@
 ======
 census
 ======
+.. image:: https://travis-ci.org/datamade/census.svg?branch=master
+    :target: https://travis-ci.org/datamade/census
 
 A simple wrapper for the United States Census Bureau's API.
 
