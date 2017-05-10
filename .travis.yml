@@ -1,0 +1,29 @@
+branches:
+  only:
+  - master
+  - "/^v.*$/"
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+language: python
+python:
+- 3.6
+- 3.5
+- 3.4
+- 2.7
+install:
+- pip install --upgrade pip
+- pip install -e .
+script:
+- pytest
+deploy:
+  - provider: pypi
+    user: datamade.wheelbuilder
+    on:
+      tags: true
+    distributions:
+    - sdist
+    - bdist_wheel
+    password:
+      secure: MA0vYongTdzP5vOY4AJFxpSjAZyParLKrKx8vk1XdDt3Zo2fQh/j/k9f87OqPhHGdMlWC9sDXncc8zSBP999ZMl9I6NDFB6sbEJs5MeslaX9a8+GtLprImmbXJpHxujgvHbnFpT26GdFTDNI2QyAEBlXD8WG/wBnFexJukbxvBA=
