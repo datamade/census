@@ -71,7 +71,11 @@ def chunks(l, n):
     """Yield successive n-sized chunks from l."""
     for i in range(0, len(l), n):
         yield l[i:i + n]
+        
+def merge(dicts):
+    return dict(item for d in dicts for item in d.items()) 
 
+        
 class CensusException(Exception):
     pass
 
@@ -125,10 +129,6 @@ class Client(object):
         return data
 
     def get(self, fields, geo, year=None, **kwargs):
-        merge = lambda dicts : dict(item
-                                    for d in dicts
-                                    for item in d.items()) 
-
         all_results = (self.query(fifty_fields, geo, year, **kwargs)
                        for fifty_fields in chunks(fields, 50))
         merged_results = [merge(result) for result in zip(*all_results)]
