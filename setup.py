@@ -26,4 +26,5 @@ setup(
         "Programming Language :: Python",
     ],
     install_requires=['requests>=1.1.0', 'us>=0.7'],
+    extras_require={'geo' : ['esridump', 'shapely'],
 )
