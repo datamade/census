@@ -125,17 +125,15 @@ class Client(object):
         return data
 
     def get(self, fields, geo, year=None, **kwargs):
-        results = []
-        for fifty_fields in chunks(fields, 50):
-            results.append(self.query(fifty_fields, geo, year, **kwargs))
+        merge = lambda dicts : dict(item
+                                    for d in dicts
+                                    for item in d.items()) 
 
-        first_results = results.pop(0)
+        all_results = (self.query(fifty_fields, geo, year, **kwargs)
+                       for fifty_fields in chunks(fields, 50))
+        merged_results = [merge(result) for result in zip(*all_results)]
 
-        for other_results in results:
-            for a, b in zip(first_results, other_results):
-                a.update(b)
-
-        return first_results
+        return merged_results
 
 
     def query(self, fields, geo, year=None, **kwargs):
