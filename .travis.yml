@@ -22,8 +22,6 @@ deploy:
     user: datamade.wheelbuilder
     on:
       tags: true
-    distributions:
-    - sdist
-    - bdist_wheel
+    distributions: "sdist bdist_wheel"
     password:
       secure: MA0vYongTdzP5vOY4AJFxpSjAZyParLKrKx8vk1XdDt3Zo2fQh/j/k9f87OqPhHGdMlWC9sDXncc8zSBP999ZMl9I6NDFB6sbEJs5MeslaX9a8+GtLprImmbXJpHxujgvHbnFpT26GdFTDNI2QyAEBlXD8WG/wBnFexJukbxvBA=

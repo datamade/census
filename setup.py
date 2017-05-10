@@ -10,7 +10,7 @@ setup(
     author="Jeremy Carbaugh",
     author_email='jcarbaugh@sunlightfoundation.com',
     maintainer='Forest Gregg',
-    maintiner_email='fgregg@gmail.com',
+    maintainer_email='fgregg@gmail.com',
     license="BSD",
     url="http://github.com/datamade/census",
     long_description=long_description,
