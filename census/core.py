@@ -67,7 +67,15 @@ def supported_years(*years):
         return wrapper
     return inner
 
+def chunks(l, n):
+    """Yield successive n-sized chunks from l."""
+    for i in range(0, len(l), n):
+        yield l[i:i + n]
+        
+def merge(dicts):
+    return dict(item for d in dicts for item in d.items()) 
 
+        
 class CensusException(Exception):
     pass
 
@@ -121,9 +129,14 @@ class Client(object):
         return data
 
     def get(self, fields, geo, year=None, **kwargs):
+        all_results = (self.query(fifty_fields, geo, year, **kwargs)
+                       for fifty_fields in chunks(fields, 50))
+        merged_results = [merge(result) for result in zip(*all_results)]
 
-        if len(fields) > 50:
-            raise CensusException("only 50 columns per call are allowed")
+        return merged_results
+
+
+    def query(self, fields, geo, year=None, **kwargs):
 
         if year is None:
             year = self.default_year
