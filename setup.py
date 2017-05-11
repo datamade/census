@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import census
 
 long_description = open('README.rst').read()
 
