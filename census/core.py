@@ -6,6 +6,9 @@ try:
 except ImportError:
     from backports.functools_lru_cache import lru_cache
 
+import pkg_resources
+__version__ = pkg_resources.require("census")[0].version
+
 ALL = '*'
 
 def new_session(*args, **kwargs):
