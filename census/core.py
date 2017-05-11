@@ -288,20 +288,6 @@ class SF1Client(Client):
             geo['in'] += ' tract:{}'.format(tract)
         return self.get(fields, geo=geo, **kwargs)
 
-    @supported_years()
-    def state_place(self, fields, state_fips, place, **kwargs):
-        return self.get(fields, geo={
-            'for': 'place:{}'.format(place),
-            'in': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
-    @supported_years(2010)
-    def state_district(self, fields, state_fips, district, **kwargs):
-        return self.get(fields, geo={
-            'for': 'congressional district:{}'.format(district),
-            'in': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
     @supported_years(2010)
     def state_msa(self, fields, state_fips, msa, **kwargs):
         return self.get(fields, geo={
