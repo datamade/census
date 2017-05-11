@@ -174,7 +174,6 @@ class Client(object):
             'for': 'congressional district:{}'.format(district),
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
-        
 
 class ACS5Client(Client):
 
@@ -222,70 +221,22 @@ class ACS3Client(Client):
     default_year = 2013
     dataset = 'acs3'
 
-    @supported_years(2013, 2012)
-    def us(self, fields, **kwargs):
-        return self.get(fields, geo={'for': 'us:1'}, **kwargs)
+    years = (2013, 2012)
 
-    @supported_years(2013, 2012)
-    def state(self, fields, state_fips, **kwargs):
-        return self.get(fields, geo={
-            'for': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
-    @supported_years(2013, 2012)
-    def state_county(self, fields, state_fips, county_fips, **kwargs):
-        return self.get(fields, geo={
-            'for': 'county:{}'.format(county_fips),
-            'in': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
-    @supported_years(2013, 2012)
+    @supported_years()
     def state_county_subdivision(self, fields, state_fips,
                                  county_fips, subdiv_fips, **kwargs):
         return self.get(fields, geo={
             'for': 'county subdivision:{}'.format(subdiv_fips),
             'in': 'state:{} county:{}'.format(state_fips, county_fips),
         }, **kwargs)
-
-    @supported_years(2013, 2012)
-    def state_place(self, fields, state_fips, place, **kwargs):
-        return self.get(fields, geo={
-            'for': 'place:{}'.format(place),
-            'in': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
-    @supported_years(2013, 2012)
-    def state_district(self, fields, state_fips, district, **kwargs):
-        return self.get(fields, geo={
-            'for': 'congressional district:{}'.format(district),
-            'in': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
-    @supported_years(2013, 2012)
-    def fields(self, *args, **kwargs):
-        return super(ACS5Client, self).fields(*args, **kwargs)
 
 class ACS1Client(Client):
 
     default_year = 2015
     dataset = 'acs1'
 
-    @supported_years(2015, 2014, 2013, 2012, 2011)
-    def us(self, fields, **kwargs):
-        return self.get(fields, geo={'for': 'us:1'}, **kwargs)
-
-    @supported_years(2015, 2014, 2013, 2012, 2011)
-    def state(self, fields, state_fips, **kwargs):
-        return self.get(fields, geo={
-            'for': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
-    @supported_years(2015, 2014, 2013, 2012, 2011)
-    def state_county(self, fields, state_fips, county_fips, **kwargs):
-        return self.get(fields, geo={
-            'for': 'county:{}'.format(county_fips),
-            'in': 'state:{}'.format(state_fips),
-        }, **kwargs)
+    years = (2015, 2014, 2013, 2012, 2011)
 
     @supported_years(2015, 2014, 2013, 2012, 2011)
     def state_county_subdivision(self, fields, state_fips,
@@ -295,50 +246,12 @@ class ACS1Client(Client):
             'in': 'state:{} county:{}'.format(state_fips, county_fips),
         }, **kwargs)
 
-    @supported_years(2015, 2014, 2013, 2012, 2011)
-    def state_place(self, fields, state_fips, place, **kwargs):
-        return self.get(fields, geo={
-            'for': 'place:{}'.format(place),
-            'in': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
-    @supported_years(2015, 2014, 2013, 2012, 2011)
-    def state_district(self, fields, state_fips, district, **kwargs):
-        return self.get(fields, geo={
-            'for': 'congressional district:{}'.format(district),
-            'in': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
-    @supported_years(2015, 2014, 2013, 2012, 2011)    
-    def fields(self, *args, **kwargs):
-        return super(ACS5Client, self).fields(*args, **kwargs)    
-    
-
 class ACS1DpClient(Client):
 
     default_year = 2012
     dataset = 'acs1/profile'
 
-    @supported_years(2012)
-    def us(self, fields, **kwargs):
-        return self.get(fields, geo={'for': 'us:1'}, **kwargs)
-
-    @supported_years(2012)
-    def state(self, fields, state_fips, **kwargs):
-        return self.get(fields, geo={
-            'for': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
-    @supported_years(2012)
-    def state_district(self, fields, state_fips, district, **kwargs):
-        return self.get(fields, geo={
-            'for': 'congressional district:{}'.format(district),
-            'in': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
-    @supported_years(2012)
-    def fields(self, *args, **kwargs):
-        return super(ACS1DpClient, self).fields(*args, **kwargs)
+    years = (2012,)
 
 
 class SF1Client(Client):
@@ -346,18 +259,7 @@ class SF1Client(Client):
     default_year = 2010
     dataset = 'sf1'
 
-    @supported_years(2010, 2000, 1990)
-    def state(self, fields, state_fips, **kwargs):
-        return self.get(fields, geo={
-            'for': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
-    @supported_years(2010, 2000, 1990)
-    def state_county(self, fields, state_fips, county_fips, **kwargs):
-        return self.get(fields, geo={
-            'for': 'county:{}'.format(county_fips),
-            'in': 'state:{}'.format(state_fips),
-        }, **kwargs)
+    years = (2010, 2000, 1990)
 
     @supported_years(2010, 2000)
     def state_county_subdivision(self, fields, state_fips,
@@ -367,7 +269,7 @@ class SF1Client(Client):
             'in': 'state:{} county:{}'.format(state_fips, county_fips),
         }, **kwargs)
 
-    @supported_years(2010, 2000, 1990)
+    @supported_years()
     def state_county_tract(self, fields, state_fips,
                            county_fips, tract, **kwargs):
         return self.get(fields, geo={
@@ -375,7 +277,7 @@ class SF1Client(Client):
             'in': 'state:{} county:{}'.format(state_fips, county_fips),
         }, **kwargs)
 
-    @supported_years(2010, 2000, 1990)
+    @supported_years()
     def state_county_blockgroup(self, fields, state_fips, county_fips,
                                 blockgroup, tract=None, **kwargs):
         geo = {
@@ -386,7 +288,7 @@ class SF1Client(Client):
             geo['in'] += ' tract:{}'.format(tract)
         return self.get(fields, geo=geo, **kwargs)
 
-    @supported_years(2010, 2000, 1990)
+    @supported_years()
     def state_place(self, fields, state_fips, place, **kwargs):
         return self.get(fields, geo={
             'for': 'place:{}'.format(place),
@@ -431,30 +333,14 @@ class SF1Client(Client):
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 
-    @supported_years(2010, 2000, 1990)
-    def fields(self, *args, **kwargs):
-        return super(SF1Client, self).fields(*args, **kwargs)
-
-
 class SF3Client(Client):
 
     default_year = 2000
     dataset = 'sf3'
 
-    @supported_years(2000, 1990)
-    def state(self, fields, state_fips, **kwargs):
-        return self.get(fields, geo={
-            'for': 'state:{}'.format(state_fips),
-        }, **kwargs)
+    years = (2000, 1990)
 
-    @supported_years(2000, 1990)
-    def state_county(self, fields, state_fips, county_fips, **kwargs):
-        return self.get(fields, geo={
-            'for': 'county:{}'.format(county_fips),
-            'in': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
-    @supported_years(2000, 1990)
+    @supported_years()
     def state_county_tract(self, fields, state_fips,
                            county_fips, tract, **kwargs):
         return self.get(fields, geo={
@@ -462,7 +348,7 @@ class SF3Client(Client):
             'in': 'state:{} county:{}'.format(state_fips, county_fips),
         }, **kwargs)
 
-    @supported_years(2000, 1990)
+    @supported_years()
     def state_county_blockgroup(self, fields, state_fips, county_fips,
                                 blockgroup, tract=None, **kwargs):
         geo = {
@@ -472,18 +358,6 @@ class SF3Client(Client):
         if tract:
             geo['in'] += ' tract:{}'.format(tract)
         return self.get(fields, geo=geo, **kwargs)
-
-    @supported_years(2000, 1990)
-    def state_place(self, fields, state_fips, place, **kwargs):
-        return self.get(fields, geo={
-            'for': 'place:{}'.format(place),
-            'in': 'state:{}'.format(state_fips),
-        }, **kwargs)
-
-    @supported_years(2000, 1990)
-    def fields(self, *args, **kwargs):
-        return super(SF3Client, self).fields(*args, **kwargs)
-
 
 class Census(object):
 
