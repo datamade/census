@@ -1,4 +1,3 @@
-import json
 import warnings
 from functools import wraps
 
@@ -109,7 +108,7 @@ class Client(object):
                 '{} is not available for {}'.format(self.dataset, year))
 
         resp = self.session.get(fields_url)
-        obj = json.loads(resp.text)
+        obj = resp.json()
 
         if flat:
 
@@ -154,15 +153,11 @@ class Client(object):
         if 'in' in geo:
             params['in'] = geo['in']
 
-        headers = {
-            'User-Agent': ('python-census/{} '.format(__version__) +
-                           'github.com/sunlightlabs/census')
-        }
-        resp = self.session.get(url, params=params, headers=headers)
+        resp = self.session.get(url, params=params)
 
         if resp.status_code == 200:
             try:
-                data = json.loads(resp.text)
+                data = resp.json()
             except ValueError as ex:
                 if '<title>Invalid Key</title>' in resp.text:
                     raise APIKeyError(' '.join(resp.text.splitlines()))
@@ -418,6 +413,10 @@ class Census(object):
             session = new_session()
 
         self.session = session
+        self.session.headers.update({
+            'User-Agent': ('python-census/{} '.format(__version__) +
+                           'github.com/datamade/census')
+        })
 
         self._acs = ACS5Client(key, year, session)  # deprecated
         self.acs5 = ACS5Client(key, year, session)
