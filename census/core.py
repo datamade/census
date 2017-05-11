@@ -1,7 +1,7 @@
 import warnings
 from functools import wraps
 
-__version__ = "0.8.2"
+__version__ = "0.8.3"
 
 ALL = '*'
 
@@ -37,7 +37,7 @@ def supported_years(*years):
             _years = years if years else self.years
             if int(year) not in _years:
                 raise UnsupportedYearException(
-                    'geography is not available in {}'.format(year))
+                    'Geography is not available in {}. Available years include {}'.format(year, _years))
             return func(self, *args, **kwargs)
         return wrapper
     return inner
@@ -215,6 +215,12 @@ class ACS5Client(Client):
             'for': 'zip code tabulation area:{}'.format(zcta),
         }, **kwargs)
 
+class ACS5DpClient(ACS5Client):    
+
+    dataset = 'acs5/profile'
+
+    years = (2015, 2014, 2013, 2012)
+
 
 class ACS3Client(Client):
 
@@ -231,6 +237,11 @@ class ACS3Client(Client):
             'in': 'state:{} county:{}'.format(state_fips, county_fips),
         }, **kwargs)
 
+class ACS3DpClient(ACS3Client):
+
+    dataset = 'acs3/profile'
+    
+
 class ACS1Client(Client):
 
     default_year = 2015
@@ -246,12 +257,11 @@ class ACS1Client(Client):
             'in': 'state:{} county:{}'.format(state_fips, county_fips),
         }, **kwargs)
 
-class ACS1DpClient(Client):
+class ACS1DpClient(ACS1Client):
 
-    default_year = 2012
     dataset = 'acs1/profile'
 
-    years = (2012,)
+    years = (2015, 2014, 2013, 2012)
 
 
 class SF1Client(Client):
@@ -364,6 +374,8 @@ class Census(object):
         self.acs5 = ACS5Client(key, year, session)
         self.acs3 = ACS3Client(key, year, session)
         self.acs1 = ACS1Client(key, year, session)
+        self.acs5dp = ACS5DpClient(key, year, session)
+        self.acs3dp = ACS3DpClient(key, year, session)
         self.acs1dp = ACS1DpClient(key, year, session)
         self.sf1 = SF1Client(key, year, session)
         self.sf3 = SF3Client(key, year, session)
