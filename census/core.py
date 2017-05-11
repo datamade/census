@@ -238,7 +238,7 @@ class ACS1Client(Client):
 
     years = (2015, 2014, 2013, 2012, 2011)
 
-    @supported_years(2015, 2014, 2013, 2012, 2011)
+    @supported_years()
     def state_county_subdivision(self, fields, state_fips,
                                  county_fips, subdiv_fips, **kwargs):
         return self.get(fields, geo={
@@ -261,7 +261,7 @@ class SF1Client(Client):
 
     years = (2010, 2000, 1990)
 
-    @supported_years(2010, 2000)
+    @supported_years()
     def state_county_subdivision(self, fields, state_fips,
                                  county_fips, subdiv_fips, **kwargs):
         return self.get(fields, geo={
@@ -362,6 +362,8 @@ class Census(object):
 
         self._acs = ACS5Client(key, year, session)  # deprecated
         self.acs5 = ACS5Client(key, year, session)
+        self.acs3 = ACS3Client(key, year, session)
+        self.acs1 = ACS1Client(key, year, session)
         self.acs1dp = ACS1DpClient(key, year, session)
         self.sf1 = SF1Client(key, year, session)
         self.sf3 = SF3Client(key, year, session)
