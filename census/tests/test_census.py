@@ -6,7 +6,7 @@ from contextlib import closing
 import requests
 
 from census.core import (
-    Census, UnsupportedYearException, __version__)
+    Census, UnsupportedYearException)
 
 KEY = os.environ.get('CENSUS_KEY', '')
 
