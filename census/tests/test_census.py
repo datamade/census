@@ -6,7 +6,7 @@ from contextlib import closing
 import requests
 
 from census.core import (
-    Census, UnsupportedYearException, DEFINITIONS, __version__)
+    Census, UnsupportedYearException, __version__)
 
 KEY = os.environ.get('CENSUS_KEY', '')
 
@@ -55,34 +55,6 @@ class CensusTestCase(unittest.TestCase):
 
     def tearDown(self):
         self._client.session.close()
-
-
-class TestDataDefinitions(CensusTestCase):
-
-    def test_valid_json(self):
-
-        with closing(requests.Session()) as http:
-
-            http.headers = {
-                'User-Agent': ('python-census/{}/tests '.format(__version__) +
-                               'github.com/sunlightlabs/census')
-            }
-
-            for name, datasets in DEFINITIONS.items():
-                for year, url in datasets.items():
-                    resp = http.head(url)
-                    self.assertEqual(resp.status_code, 200)
-
-
-class TestDefaultYears(CensusTestCase):
-
-    def test_default_year_is_supported(self):
-
-        for client_name, method_names in CLIENTS:
-            client = self.client(client_name)
-            for method_name in method_names:
-                method = getattr(client, method_name)
-                self.assertIn(client.default_year, method.supported_years)
 
 
 class TestUnsupportedYears(CensusTestCase):
@@ -158,7 +130,7 @@ class TestEndpoints(CensusTestCase):
             ('us', 'United States'),
             ('state', 'Maryland'),
             ('state_district',
-                'Congressional District 6 (113th Congress), Maryland'),
+                'Congressional District 6 (114th Congress), Maryland'),
         )
 
         self.check_endpoints('acs1dp', tests)
