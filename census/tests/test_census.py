@@ -85,12 +85,6 @@ class TestDefaultYears(CensusTestCase):
                 self.assertIn(client.default_year, method.supported_years)
 
 
-# class TestSupportedYears(CensusTestCase):
-#
-#     def test_acs5(self):
-#         pass
-
-
 class TestUnsupportedYears(CensusTestCase):
 
     def setUp(self):
