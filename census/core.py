@@ -4,8 +4,6 @@ from functools import wraps
 __version__ = "0.8.2"
 
 ALL = '*'
-ENDPOINT_URL = 'http://api.census.gov/data/%s/%s'
-DEFINITIONS_URL = 'http://api.census.gov/data/%s/%s/variables.json'
 
 def new_session(*args, **kwargs):
     import requests
@@ -62,6 +60,8 @@ class UnsupportedYearException(CensusException):
 
 
 class Client(object):
+    endpoint_url = 'http://api.census.gov/data/%s/%s'
+    definitions_url = 'http://api.census.gov/data/%s/%s/variables.json'
 
     def __init__(self, key, year=None, session=None):
         self._key = key
@@ -76,7 +76,7 @@ class Client(object):
 
         data = {}
 
-        fields_url = DEFINITIONS_URL % (year, self.dataset)
+        fields_url = self.definitions_url % (year, self.dataset)
 
         resp = self.session.get(fields_url)
         obj = resp.json()
@@ -113,7 +113,7 @@ class Client(object):
 
         fields = list_or_str(fields)
 
-        url = ENDPOINT_URL % (year, self.dataset)
+        url = self.endpoint_url % (year, self.dataset)
 
         params = {
             'get': ",".join(fields),
