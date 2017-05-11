@@ -6,8 +6,6 @@ try:
 except ImportError:
     from backports.functools_lru_cache import lru_cache
 
-__version__ = "0.8.3"
-
 ALL = '*'
 
 def new_session(*args, **kwargs):
