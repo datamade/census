@@ -15,8 +15,8 @@ Install
 
     pip install census
 
-You may also want to install a complementary library, _`us <https://pypi.python.org/pypi/us>`_, which help you figure out the
-_`FIPS <https://en.wikipedia.org/wiki/Federal_Information_Processing_Standard_state_code>`_ codes for many geographies. We use it in the examples below.
+You may also want to install a complementary library, `us <https://pypi.python.org/pypi/us>`_, which help you figure out the
+`FIPS <https://en.wikipedia.org/wiki/Federal_Information_Processing_Standard_state_code>`_ codes for many geographies. We use it in the examples below.
 
 ::
 
