@@ -60,8 +60,8 @@ class UnsupportedYearException(CensusException):
 
 
 class Client(object):
-    endpoint_url = 'http://api.census.gov/data/%s/%s'
-    definitions_url = 'http://api.census.gov/data/%s/%s/variables.json'
+    endpoint_url = 'https://api.census.gov/data/%s/%s'
+    definitions_url = 'https://api.census.gov/data/%s/%s/variables.json'
 
     def __init__(self, key, year=None, session=None):
         self._key = key
