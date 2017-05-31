@@ -8,11 +8,24 @@ A simple wrapper for the United States Census Bureau's API.
 
 Provides access to ACS, SF1, and SF3 data sets.
 
+Install
+=======
+
+::
+
+    pip install census
+
+You may also want to install a complementary library, _`us <https://pypi.python.org/pypi/us>`_, which help you figure out the
+_`FIPS <https://en.wikipedia.org/wiki/Federal_Information_Processing_Standard_state_code>`_ codes for many geographies. We use it in the examples below.
+
+::
+
+   pip install us
 
 Usage
 =====
 
-First, get yourself a `Census API key <http://www.census.gov/developers/>`_.
+First, get yourself a `Census API key <https://www.census.gov/developers/>`_.
 
 ::
 
@@ -60,13 +73,13 @@ Geographies
 ===========
 
 The API supports a wide range of geographic regions. The specification of these
-can be quite complicated so a number of convenience methods are provided. Refer to the `Census API documentation <http://www.census.gov/developers/data/>`_
+can be quite complicated so a number of convenience methods are provided. Refer to the `Census API documentation <https://www.census.gov/developers/data/>`_
 for more geographies beyond the convenience methods.
 
 *Not all geographies are supported in all years. Calling a convenience method
 with a year that is not supported will raise census.UnsupportedYearException.*
 
-`Geographic relationship files <http://www.census.gov/geo/maps-data/data/relationship.html>`_ are provided on the Census developer site as a tool to help users compare the geographies from the 1990, 2000 and 2010 Censuses. From these files, data users may determine how geographies from one Census relate to those from the prior Census.
+`Geographic relationship files <https://www.census.gov/geo/maps-data/data/relationship.html>`_ are provided on the Census developer site as a tool to help users compare the geographies from the 1990, 2000 and 2010 Censuses. From these files, data users may determine how geographies from one Census relate to those from the prior Census.
 
 ACS5 Geographies
 ----------------
