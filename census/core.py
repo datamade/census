@@ -1,7 +1,13 @@
 import warnings
 from functools import wraps
 
-__version__ = "0.8.3"
+try:
+    from functools import lru_cache
+except ImportError:
+    from backports.functools_lru_cache import lru_cache
+
+import pkg_resources
+__version__ = pkg_resources.require("census")[0].version
 
 ALL = '*'
 
@@ -62,6 +68,7 @@ class UnsupportedYearException(CensusException):
 class Client(object):
     endpoint_url = 'https://api.census.gov/data/%s/%s'
     definitions_url = 'https://api.census.gov/data/%s/%s/variables.json'
+    definition_url = 'https://api.census.gov/data/%s/%s/variables/%s.json'
 
     def __init__(self, key, year=None, session=None):
         self._key = key
@@ -135,14 +142,35 @@ class Client(object):
                 else:
                     raise ex
 
-            headers = data[0]
-            return [dict(zip(headers, d)) for d in data[1:]]
+            headers = data.pop(0)
+            types = [self._field_type(header, year) for header in headers]
+            results = [{header : cast(item)
+                        for header, cast, item
+                        in zip(headers, types, d)}
+                       for d in data]
+            return results
 
         elif resp.status_code == 204:
             return []
 
         else:
             raise CensusException(resp.text)
+
+    @lru_cache(maxsize=1024)
+    def _field_type(self, field, year):
+        url = self.definition_url % (year, self.dataset, field)
+        resp = self.session.get(url)
+
+        types = {"fips-for" : str,
+                 "fips-in" : str,
+                 "int" : int,
+                 "string": str}
+
+        if resp.status_code == 200:
+            predicate_type = resp.json().get("predicateType", "string")
+            return types[predicate_type]
+        else:
+            return str
 
     @supported_years()        
     def us(self, fields, **kwargs):
