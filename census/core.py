@@ -112,7 +112,6 @@ class Client(object):
 
         return merged_results
 
-
     def query(self, fields, geo, year=None, **kwargs):
 
         if year is None:
@@ -144,7 +143,7 @@ class Client(object):
 
             headers = data.pop(0)
             types = [self._field_type(header, year) for header in headers]
-            results = [{header : cast(item)
+            results = [{header : cast(item) if item is not None else None
                         for header, cast, item
                         in zip(headers, types, d)}
                        for d in data]
@@ -156,21 +155,28 @@ class Client(object):
         else:
             raise CensusException(resp.text)
 
-    @lru_cache(maxsize=1024)
-    def _field_type(self, field, year):
+    def definition(self, field, year):
         url = self.definition_url % (year, self.dataset, field)
         resp = self.session.get(url)
 
-        types = {"fips-for" : str,
-                 "fips-in" : str,
-                 "int" : int,
-                 "string": str}
-
         if resp.status_code == 200:
-            predicate_type = resp.json().get("predicateType", "string")
-            return types[predicate_type]
+            return resp.json()
         else:
+            raise CensusException(resp.text)
+
+    @lru_cache(maxsize=1024)
+    def _field_type(self, field, year):
+        try:
+            definition = self.definition(field, year)
+        except CensusException:
             return str
+        else:
+            types = {"fips-for" : str,
+                     "fips-in" : str,
+                     "int" : int,
+                     "string": str}
+            predicate_type = definition.get("predicateType", "string")
+            return types[predicate_type]
 
     @supported_years()        
     def us(self, fields, **kwargs):
