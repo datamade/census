@@ -1,6 +1,8 @@
 import warnings
 from functools import wraps
 
+from . import crosswalk
+
 try:
     from functools import lru_cache
 except ImportError:
@@ -164,19 +166,14 @@ class Client(object):
         else:
             raise CensusException(resp.text)
 
-    @lru_cache(maxsize=1024)
     def _field_type(self, field, year):
-        try:
-            definition = self.definition(field, year)
-        except CensusException:
-            return str
+        if any(char.isdigit() for char in field):
+            return int
         else:
-            types = {"fips-for" : str,
-                     "fips-in" : str,
-                     "int" : int,
-                     "string": str}
-            predicate_type = definition.get("predicateType", "string")
-            return types[predicate_type]
+            return str
+
+    def _cross(self, fields):
+        return fields
 
     @supported_years()        
     def us(self, fields, **kwargs):
@@ -208,6 +205,7 @@ class Client(object):
             'for': 'congressional district:{}'.format(district),
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
+    
 
 class ACS5Client(Client):
 
@@ -388,6 +386,51 @@ class SF3Client(Client):
         if tract:
             geo['in'] += ' tract:{}'.format(tract)
         return self.get(fields, geo=geo, **kwargs)
+
+    def get(self, fields, geo, year=None, as_acs=False, **kwargs):
+        if as_acs:
+            crossed = self._cross(fields)
+
+            results = super(SF3Client, self).get(tuple(crossed), geo,
+                                                 year=year, **kwargs)
+
+            crossed_results = []
+            for result in results:
+                crossed_result = {}
+                for sf3_field, value in result.items():
+                    if sf3_field not in crossed:
+                        continue
+                    acs_field = crossed[sf3_field]
+                    if acs_field in crossed_result:
+                        crossed_result[acs_field] += value
+                    else:
+                        crossed_result[acs_field] = value
+                crossed_results.append(crossed_result)
+
+            return crossed_results
+
+        else:
+            return super(SF3Client, self).get(fields, geo,
+                                              year=year, **kwargs)
+
+    def _cross(self, fields):
+        crossed = {}
+        for field in fields:
+            if '_' in field and field.endswith('E'):
+                table, var_id = field.split('_')
+                sf3_table = crosswalk.identical.get(table, None)
+                if sf3_table:
+                    crossed[(sf3_table + var_id[:-1])] = field
+                else:
+                    for sf3_field in crosswalk.comparable[field]:
+                        crossed[sf3_field] = field
+            elif field.endswith('M'):
+                raise
+            else:
+                crossed[field] = field
+
+        return crossed
+                        
 
 class Census(object):
 
