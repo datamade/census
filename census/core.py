@@ -144,10 +144,17 @@ class Client(object):
 
             headers = data.pop(0)
             types = [self._field_type(header, year) for header in headers]
-            results = [{header : (cast(item) if item is not None else None)
-                        for header, cast, item
-                        in zip(headers, types, d)}
-                       for d in data]
+
+            results = []
+            for d in data:
+                dd = {}
+                for header, cast, item in zip(headers, types, d):
+                    try:
+                        dd[header] = cast(item) if item is not None else None
+                    except ValueError as e:
+                        dd[header] = item
+
+                results.append(dd)
             return results
 
         elif resp.status_code == 204:
