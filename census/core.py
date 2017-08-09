@@ -52,11 +52,11 @@ def chunks(l, n):
     """Yield successive n-sized chunks from l."""
     for i in range(0, len(l), n):
         yield l[i:i + n]
-        
-def merge(dicts):
-    return dict(item for d in dicts for item in d.items()) 
 
-        
+def merge(dicts):
+    return dict(item for d in dicts for item in d.items())
+
+
 class CensusException(Exception):
     pass
 
@@ -144,7 +144,7 @@ class Client(object):
 
             headers = data.pop(0)
             types = [self._field_type(header, year) for header in headers]
-            results = [{header : cast(item)
+            results = [{header : (cast(item) if item is not None else None)
                         for header, cast, item
                         in zip(headers, types, d)}
                        for d in data]
@@ -172,24 +172,24 @@ class Client(object):
         else:
             return str
 
-    @supported_years()        
+    @supported_years()
     def us(self, fields, **kwargs):
         return self.get(fields, geo={'for': 'us:1'}, **kwargs)
 
-    @supported_years()    
+    @supported_years()
     def state(self, fields, state_fips, **kwargs):
         return self.get(fields, geo={
             'for': 'state:{}'.format(state_fips),
         }, **kwargs)
 
-    @supported_years()    
+    @supported_years()
     def state_county(self, fields, state_fips, county_fips, **kwargs):
         return self.get(fields, geo={
             'for': 'county:{}'.format(county_fips),
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 
-    @supported_years()    
+    @supported_years()
     def state_place(self, fields, state_fips, place, **kwargs):
         return self.get(fields, geo={
             'for': 'place:{}'.format(place),
@@ -236,14 +236,14 @@ class ACS5Client(Client):
         if tract:
             geo['in'] += ' tract:{}'.format(tract)
         return self.get(fields, geo=geo, **kwargs)
-    
+
     @supported_years(2015, 2014, 2013, 2012, 2011)
     def zipcode(self, fields, zcta, **kwargs):
         return self.get(fields, geo={
             'for': 'zip code tabulation area:{}'.format(zcta),
         }, **kwargs)
 
-class ACS5DpClient(ACS5Client):    
+class ACS5DpClient(ACS5Client):
 
     dataset = 'acs5/profile'
 
@@ -268,7 +268,7 @@ class ACS3Client(Client):
 class ACS3DpClient(ACS3Client):
 
     dataset = 'acs3/profile'
-    
+
 
 class ACS1Client(Client):
 
