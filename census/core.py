@@ -34,6 +34,11 @@ def list_or_str(v):
         return v
     return [v]
 
+def float_or_str(v):
+    try:
+        return float(v)
+    except ValueError:
+        return str(v)
 
 def supported_years(*years):
     def inner(func):
@@ -163,7 +168,7 @@ class Client(object):
 
         types = {"fips-for" : str,
                  "fips-in" : str,
-                 "int" : int,
+                 "int" : float_or_str,
                  "string": str}
 
         if resp.status_code == 200:
