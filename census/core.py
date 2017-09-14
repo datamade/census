@@ -208,7 +208,16 @@ class Client(object):
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 
-class ACS5Client(Client):
+class ACSClient(Client):
+    def __init__(self, *args, **kwargs):
+        super(ACSClient, self).__init__(*args, **kwargs)
+        if self.default_year >= 2016:
+            self.endpoint_url = 'https://api.census.gov/data/%s/acs/%s'
+            self.definitions_url = 'https://api.census.gov/data/%s/acs/%s/variables.json'
+            self.definition_url = 'https://api.census.gov/data/%s/acs/%s/variables/%s.json'
+
+
+class ACS5Client(ACSClient):
 
     default_year = 2015
     dataset = 'acs5'
@@ -255,7 +264,7 @@ class ACS5DpClient(ACS5Client):
     years = (2015, 2014, 2013, 2012)
 
 
-class ACS3Client(Client):
+class ACS3Client(ACSClient):
 
     default_year = 2013
     dataset = 'acs3'
@@ -275,12 +284,12 @@ class ACS3DpClient(ACS3Client):
     dataset = 'acs3/profile'
 
 
-class ACS1Client(Client):
+class ACS1Client(ACSClient):
 
-    default_year = 2015
+    default_year = 2016
     dataset = 'acs1'
 
-    years = (2015, 2014, 2013, 2012, 2011)
+    years = (2016, 2015, 2014, 2013, 2012, 2011)
 
     @supported_years()
     def state_county_subdivision(self, fields, state_fips,
@@ -294,7 +303,7 @@ class ACS1DpClient(ACS1Client):
 
     dataset = 'acs1/profile'
 
-    years = (2015, 2014, 2013, 2012)
+    years = (2016, 2015, 2014, 2013, 2012)
 
 
 class SF1Client(Client):

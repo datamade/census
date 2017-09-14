@@ -130,7 +130,7 @@ class TestEndpoints(CensusTestCase):
             ('us', 'United States'),
             ('state', 'Maryland'),
             ('state_district',
-                'Congressional District 6 (114th Congress), Maryland'),
+                'Congressional District 6 (115th Congress), Maryland'),
         )
 
         self.check_endpoints('acs1dp', tests)
