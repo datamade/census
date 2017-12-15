@@ -200,11 +200,16 @@ class TestEndpoints(CensusTestCase):
     def test_new_style_endpoints(self):
         client = Census(KEY, year=2016)
 
-        client.acs1.state('B01001_004E', Census.ALL, year=2014)
+        res_2016_2016 = client.acs1.state('B01001_004E', Census.ALL)
+        res_2016_2014 = client.acs1.state('B01001_004E', Census.ALL, year=2014)
 
         client = Census(KEY, year=2014)
-        
-        client.acs1.state('B01001_004E', Census.ALL, year=2016)
+
+        res_2014_2014 = client.acs1.state('B01001_004E', Census.ALL)
+        res_2014_2016 = client.acs1.state('B01001_004E', Census.ALL, year=2016)
+
+        assert res_2016_2016 == res_2014_2016
+        assert res_2014_2014 == res_2016_2014
 
         
 if __name__ == '__main__':

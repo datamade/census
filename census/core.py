@@ -209,13 +209,22 @@ class Client(object):
         }, **kwargs)
 
 class ACSClient(Client):
-    def __init__(self, *args, **kwargs):
-        super(ACSClient, self).__init__(*args, **kwargs)
-        if self.default_year >= 2016:
+
+    def _switch_endpoints(self, year):
+        
+        if year > 2015:
             self.endpoint_url = 'https://api.census.gov/data/%s/acs/%s'
             self.definitions_url = 'https://api.census.gov/data/%s/acs/%s/variables.json'
             self.definition_url = 'https://api.census.gov/data/%s/acs/%s/variables/%s.json'
+        else:
+            self.endpoint_url = super(ACSClient, self).endpoint_url 
+            self.definitions_url = super(ACSClient, self).definitions_url 
+            self.definition_url = super(ACSClient, self).definition_url
 
+    def get(self, *args, **kwargs):
+        self._switch_endpoints(kwargs.get('year', self.default_year))
+
+        return super(ACSClient, self).get(*args, **kwargs)
 
 class ACS5Client(ACSClient):
 
