@@ -25,7 +25,7 @@ You may also want to install a complementary library, `us <https://pypi.python.o
 Usage
 =====
 
-First, get yourself a `Census API key <https://www.census.gov/developers/>`_.
+First, get yourself a `Census API key <https://api.census.gov/data/key_signup.html>`_.
 
 ::
 
