@@ -33,7 +33,7 @@ CLIENTS = (
 
 TEST_DATA = {
     'state_fips': '24',
-    'county_fips': '31',
+    'county_fips': '031',
     'subdiv_fips': '90796',
     'tract': '700704',
     'blockgroup': '1',
@@ -118,7 +118,7 @@ class TestEndpoints(CensusTestCase):
                     'Montgomery County, Maryland')),
             ('state_place', 'Gaithersburg city, Maryland'),
             ('state_district',
-                'Congressional District 6 (114th Congress), Maryland'),
+                'Congressional District 6 (115th Congress), Maryland'),
             ('zipcode', 'ZCTA5 20877'),
         )
 
