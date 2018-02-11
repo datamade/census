@@ -25,7 +25,7 @@ You may also want to install a complementary library, `us <https://pypi.python.o
 Usage
 =====
 
-First, get yourself a `Census API key <https://www.census.gov/developers/>`_.
+First, get yourself a `Census API key <https://api.census.gov/data/key_signup.html>`_.
 
 ::
 
@@ -73,7 +73,7 @@ Geographies
 ===========
 
 The API supports a wide range of geographic regions. The specification of these
-can be quite complicated so a number of convenience methods are provided. Refer to the `Census API documentation <https://www.census.gov/developers/data/>`_
+can be quite complicated so a number of convenience methods are provided. Refer to the `Census API documentation <https://www.census.gov/data/developers/guidance/api-user-guide.html>`_
 for more geographies beyond the convenience methods.
 
 *Not all geographies are supported in all years. Calling a convenience method
