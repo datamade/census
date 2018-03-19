@@ -25,6 +25,6 @@ setup(
         "Programming Language :: Python",
     ],
     install_requires=['requests>=1.1.0',
-                      'six',
+                      'six>=1.11.0',
                       'backports.functools_lru_cache;python_version<"3.3"'],
 )
