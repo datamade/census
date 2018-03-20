@@ -1,6 +1,7 @@
-import six
 import warnings
 from functools import wraps
+
+from builtins import str
 
 try:
     from functools import lru_cache
@@ -166,10 +167,10 @@ class Client(object):
         url = self.definition_url % (year, self.dataset, field)
         resp = self.session.get(url)
 
-        types = {"fips-for" : six.text_type,
-                 "fips-in" : six.text_type,
+        types = {"fips-for" : str,
+                 "fips-in" : str,
                  "int" : float_or_str,
-                 "string": six.text_type}
+                 "string": str}
 
         if resp.status_code == 200:
             predicate_type = resp.json().get("predicateType", "string")

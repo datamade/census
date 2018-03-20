@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
-import six
 import time
 import unittest
 from contextlib import closing
@@ -112,7 +111,7 @@ class TestEncoding(CensusTestCase):
         # 'La Ca\xf1ada Flintridge city, California'
         self.assertEqual(
             self._client.acs.get('NAME', geo=geo, year=2015)[0]['NAME'],
-            six.u('La Ca\xf1ada Flintridge city, California')
+            u'La Ca\xf1ada Flintridge city, California'
         )
 
 
