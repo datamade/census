@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import time
 import unittest
@@ -81,6 +83,36 @@ class TestUnsupportedYears(CensusTestCase):
         client = self.client('sf3')
         self.assertRaises(UnsupportedYearException,
                           client.state, ('NAME', '06'))
+
+
+class TestEncoding(CensusTestCase):
+    """
+    Test character encodings of results are properly handled.
+    """
+    def test_la_canada_2015(self):
+        """
+        The 'La Cañada Flintridge city, California' place can be a problem in Python 2.7.
+        """
+        # 2017 and 2016 is returned as:
+        # 'La Ca?ada Flintridge city, California'
+        geo = {
+            'for': 'place:39003',
+            'in': u'state:06'
+        }
+        self.assertEqual(
+            self._client.acs5.get('NAME', geo=geo)[0]['NAME'],
+            'La Ca?ada Flintridge city, California'
+        )
+        self.assertEqual(
+            self._client.acs.get('NAME', geo=geo, year=2016)[0]['NAME'],
+            'La Ca?ada Flintridge city, California'
+        )
+        # 2015 is returned as:
+        # 'La Ca\xf1ada Flintridge city, California'
+        self.assertEqual(
+            self._client.acs.get('NAME', geo=geo, year=2015)[0]['NAME'],
+            u'La Ca\xf1ada Flintridge city, California'
+        )
 
 
 class TestEndpoints(CensusTestCase):
@@ -211,6 +243,6 @@ class TestEndpoints(CensusTestCase):
         assert res_2016_2016 == res_2014_2016
         assert res_2014_2014 == res_2016_2014
 
-        
+
 if __name__ == '__main__':
     unittest.main()

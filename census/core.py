@@ -1,6 +1,8 @@
 import warnings
 from functools import wraps
 
+from builtins import str
+
 try:
     from functools import lru_cache
 except ImportError:
@@ -119,7 +121,6 @@ class Client(object):
 
 
     def query(self, fields, geo, year=None, **kwargs):
-
         if year is None:
             year = self.default_year
 
@@ -211,14 +212,14 @@ class Client(object):
 class ACSClient(Client):
 
     def _switch_endpoints(self, year):
-        
+
         if year > 2015:
             self.endpoint_url = 'https://api.census.gov/data/%s/acs/%s'
             self.definitions_url = 'https://api.census.gov/data/%s/acs/%s/variables.json'
             self.definition_url = 'https://api.census.gov/data/%s/acs/%s/variables/%s.json'
         else:
-            self.endpoint_url = super(ACSClient, self).endpoint_url 
-            self.definitions_url = super(ACSClient, self).definitions_url 
+            self.endpoint_url = super(ACSClient, self).endpoint_url
+            self.definitions_url = super(ACSClient, self).definitions_url
             self.definition_url = super(ACSClient, self).definition_url
 
     def get(self, *args, **kwargs):
