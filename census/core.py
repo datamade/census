@@ -203,23 +203,35 @@ class Client(object):
         }, **kwargs)
 
     @supported_years()
-    def congressional_district(self, fields, state_fips, district, **kwargs):
+    def state_district(self, fields, state_fips, district, **kwargs):
+        warnings.warn(
+            "state_district refers to congressional districts; use state_congressional_district instead",
+             DeprecationWarning
+        )
+
+        # throwaway, but we can't pass it in twice.
+        congressional_district = kwargs.pop('congressional_district', None)
+        
+        return self.state_congressional_district(fields, state_fips, district)
+
+    @supported_years()
+    def state_congressional_district(self, fields, state_fips, congressional_district, **kwargs):
         return self.get(fields, geo={
-            'for': 'congressional district:{}'.format(district),
+            'for': 'congressional district:{}'.format(congressional_district),
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 
     @supported_years()
-    def legislative_district_upper(self, fields, state_fips, district, **kwargs):
+    def state_legislative_district_upper(self, fields, state_fips, legislative_district, **kwargs):
         return self.get(fields, geo={
-            'for': 'state legislative district (upper chamber):{}'.format(str(district).zfill(3)),
+            'for': 'state legislative district (upper chamber):{}'.format(str(legislative_district).zfill(3)),
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 
     @supported_years()
-    def legislative_district_lower(self, fields, state_fips, district, **kwargs):
+    def state_legislative_district_lower(self, fields, state_fips, legislative_district, **kwargs):
         return self.get(fields, geo={
-            'for': 'state legislative district (lower chamber):{}'.format(str(district).zfill(3)),
+            'for': 'state legislative district (lower chamber):{}'.format(str(legislative_district).zfill(3)),
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 

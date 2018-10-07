@@ -90,7 +90,9 @@ ACS5 Geographies
 * state_county_subdivision(fields, state_fips, county_fips, subdiv_fips)
 * state_county_tract(fields, state_fips, county_fips, tract)
 * state_place(fields, state_fips, place)
-* state_district(fields, state_fips, district)
+* state_congressional_district(fields, state_fips, congressional_district)
+* state_legislative_district_upper(fields, state_fips, legislative_district)
+* state_legislative_district_lower(fields, state_fips, legislative_district)
 * us(fields)
 * zipcode(fields, zip5)
 
@@ -98,7 +100,7 @@ ACS1 Geographies
 ----------------
 
 * state(fields, state_fips)
-* state_district(fields, state_fips, district)
+* state_congressional_district(fields, state_fips, district)
 * us(fields)
 
 SF1 Geographies
@@ -109,7 +111,7 @@ SF1 Geographies
 * state_county_subdivision(fields, state_fips, county_fips, subdiv_fips)
 * state_county_tract(fields, state_fips, county_fips, tract)
 * state_place(fields, state_fips, place)
-* state_district(fields, state_fips, district)
+* state_congressional_district(fields, state_fips, district)
 * state_msa(fields, state_fips, msa)
 * state_csa(fields, state_fips, csa)
 * state_district_place(fields, state_fips, district, place)

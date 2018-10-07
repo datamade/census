@@ -16,16 +16,20 @@ CLIENTS = (
     ('acs5', (
         'us', 'state', 'state_county', 'state_county_subdivision',
         'state_county_tract', 'state_county_blockgroup',
-        'state_place', 'state_district', 'zipcode',
+        'state_place', 'state_district',
+        'state_congressional_district',
+        'state_legislative_district_upper',
+        'state_legislative_district_lower', 'zipcode',
     )),
     ('acs1dp', (
-        'us', 'state', 'state_district',
+        'us', 'state', 'state_congressional_district',
     )),
     ('sf1', (
         'state', 'state_county', 'state_county_subdivision',
         'state_county_tract', 'state_county_blockgroup',
-        'state_place', 'state_district', 'state_msa', 'state_csa',
-        'state_district_place', 'state_zipcode',
+        'state_place', 'state_congressional_district', 
+        'state_msa', 'state_csa', 'state_district_place',
+        'state_zipcode',
     )),
     ('sf3', (
         'state', 'state_county', 'state_county_tract',
@@ -40,7 +44,9 @@ TEST_DATA = {
     'tract': '700704',
     'blockgroup': '1',
     'place': '31175',
-    'district': '06',
+    'district': '06',       # for old `state_district` calling.
+    'congressional_district': '06',
+    'legislative_district': '07',
     'zcta': '20877',
     'msa': '47900',
     'csa': '548',
@@ -151,6 +157,12 @@ class TestEndpoints(CensusTestCase):
             ('state_place', 'Gaithersburg city, Maryland'),
             ('state_district',
                 'Congressional District 6 (115th Congress), Maryland'),
+            ('state_congressional_district',
+                'Congressional District 6 (115th Congress), Maryland'),
+            ('state_legislative_district_upper',
+                'State Senate District 7 (2016), Maryland'),
+            ('state_legislative_district_lower',
+                'State Legislative District 7 (2016), Maryland'),
             ('zipcode', 'ZCTA5 20877'),
         )
 
@@ -161,7 +173,7 @@ class TestEndpoints(CensusTestCase):
         tests = (
             ('us', 'United States'),
             ('state', 'Maryland'),
-            ('state_district',
+            ('state_congressional_district',
                 'Congressional District 6 (115th Congress), Maryland'),
         )
 
@@ -177,7 +189,8 @@ class TestEndpoints(CensusTestCase):
                 'Census Tract 7007.04'),
             ('state_county_blockgroup', 'Block Group 1'),
             ('state_place', 'Gaithersburg city'),
-            ('state_district', 'Congressional District 6'),
+            ('state_congressional_district',
+                'Congressional District 6'),
             ('state_msa',
                 ('Washington-Arlington-Alexandria, '
                     'DC-VA-MD-WV Metro Area (part)')),
