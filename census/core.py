@@ -203,9 +203,23 @@ class Client(object):
         }, **kwargs)
 
     @supported_years()
-    def state_district(self, fields, state_fips, district, **kwargs):
+    def congressional_district(self, fields, state_fips, district, **kwargs):
         return self.get(fields, geo={
             'for': 'congressional district:{}'.format(district),
+            'in': 'state:{}'.format(state_fips),
+        }, **kwargs)
+
+    @supported_years()
+    def legislative_district_upper(self, fields, state_fips, district, **kwargs):
+        return self.get(fields, geo={
+            'for': 'state legislative district (upper chamber):{}'.format(str(district).zfill(3)),
+            'in': 'state:{}'.format(state_fips),
+        }, **kwargs)
+
+    @supported_years()
+    def legislative_district_lower(self, fields, state_fips, district, **kwargs):
+        return self.get(fields, geo={
+            'for': 'state legislative district (lower chamber):{}'.format(str(district).zfill(3)),
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 
