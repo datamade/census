@@ -212,7 +212,7 @@ class Client(object):
         # throwaway, but we can't pass it in twice.
         congressional_district = kwargs.pop('congressional_district', None)
         
-        return self.state_congressional_district(fields, state_fips, district)
+        return self.state_congressional_district(fields, state_fips, district, **kwargs)
 
     @supported_years()
     def state_congressional_district(self, fields, state_fips, congressional_district, **kwargs):
