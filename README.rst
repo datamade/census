@@ -64,6 +64,7 @@ Datasets
 ========
 
 * acs5: ACS 5 Year Estimates (2016, 2015, 2014, 2013, 2012, 2011, 2010)
+* acs5subject: ACS 5 Year Estimate Subject Tables (2016, 2015, 2014, 2013, 2012, 2011, 2010) 
 * acs1dp: ACS 1 Year Estimates, Data Profiles (2016, 2015, 2014, 2013, 2012)
 * sf1: Census Summary File 1 (2010, 2000, 1990)
 * sf3: Census Summary File 3 (2000, 1990)

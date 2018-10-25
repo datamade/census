@@ -299,6 +299,12 @@ class ACS5DpClient(ACS5Client):
 
     years = (2016, 2015, 2014, 2013, 2012)
 
+class ACS5SubjectClient(ACS5Client):
+    
+    dataset = 'acs/acs5/subject'
+
+    years = (2016, 2015, 2014, 2013, 2012, 2011, 2010)
+
 
 class ACS3Client(ACSClient):
 
@@ -455,6 +461,7 @@ class Census(object):
         self.acs5dp = ACS5DpClient(key, year, session)
         self.acs3dp = ACS3DpClient(key, year, session)
         self.acs1dp = ACS1DpClient(key, year, session)
+        self.acs5subject = ACS5SubjectClient(key, year, session)
         self.sf1 = SF1Client(key, year, session)
         self.sf3 = SF3Client(key, year, session)
 
