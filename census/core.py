@@ -76,12 +76,28 @@ class Client(object):
     endpoint_url = 'https://api.census.gov/data/%s/%s'
     definitions_url = 'https://api.census.gov/data/%s/%s/variables.json'
     definition_url = 'https://api.census.gov/data/%s/%s/variables/%s.json'
+    groups_url = 'https://api.census.gov/data/%s/%s/groups.json'
 
     def __init__(self, key, year=None, session=None):
         self._key = key
         self.session = session or new_session()
         if year:
             self.default_year = year
+
+    def tables(self, year=None):
+        """
+        Returns a list of the data tables available from this source.
+        """
+        # Set the default year if one hasn't been passed
+        if year is None:
+            year = self.default_year
+
+        # Query the table metadata as raw JSON
+        tables_url = self.groups_url % (year, self.dataset)
+        resp = self.session.get(tables_url)
+
+        # Pass it out
+        return resp.json()['groups']
 
     @supported_years()
     def fields(self, year=None, flat=False):
@@ -211,7 +227,7 @@ class Client(object):
 
         # throwaway, but we can't pass it in twice.
         congressional_district = kwargs.pop('congressional_district', None)
-        
+
         return self.state_congressional_district(fields, state_fips, district, **kwargs)
 
     @supported_years()
@@ -243,10 +259,16 @@ class ACSClient(Client):
             self.endpoint_url = 'https://api.census.gov/data/%s/acs/%s'
             self.definitions_url = 'https://api.census.gov/data/%s/acs/%s/variables.json'
             self.definition_url = 'https://api.census.gov/data/%s/acs/%s/variables/%s.json'
+            self.groups_url = 'https://api.census.gov/data/%s/acs/%s/groups.json'
         else:
             self.endpoint_url = super(ACSClient, self).endpoint_url
             self.definitions_url = super(ACSClient, self).definitions_url
             self.definition_url = super(ACSClient, self).definition_url
+            self.groups_url = super(ACSClient, self).groups_url
+
+    def tables(self, *args, **kwargs):
+        self._switch_endpoints(kwargs.get('year', self.default_year))
+        return super(ACSClient, self).tables(*args, **kwargs)
 
     def get(self, *args, **kwargs):
         self._switch_endpoints(kwargs.get('year', self.default_year))

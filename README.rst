@@ -177,3 +177,7 @@ Total number of males age 5 - 9 for all states::
 The same call using the state convenience method::
 
     c.acs5.state('B01001_004E', Census.ALL)
+
+Don't know the list of tables in a survey, try this:
+
+    c.acs5.tables()
