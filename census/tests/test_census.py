@@ -27,7 +27,7 @@ CLIENTS = (
     ('sf1', (
         'state', 'state_county', 'state_county_subdivision',
         'state_county_tract', 'state_county_blockgroup',
-        'state_place', 'state_congressional_district', 
+        'state_place', 'state_congressional_district',
         'state_msa', 'state_csa', 'state_district_place',
         'state_zipcode',
     )),
@@ -140,6 +140,11 @@ class TestEndpoints(CensusTestCase):
             self.assertTrue(data, msg)
             self.assertEqual(data[0]['NAME'], expected, msg)
             time.sleep(0.2)
+
+    def test_tables(self):
+        self.client('acs5').tables()
+        self.client('acs5').tables(2010)
+        self.client('sf1').tables()
 
     def test_acs5(self):
 
