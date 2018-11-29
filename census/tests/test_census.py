@@ -188,22 +188,25 @@ class TestEndpoints(CensusTestCase):
 
         tests = (
             ('state', 'Maryland'),
-            ('state_county', 'Montgomery County'),
-            ('state_county_subdivision', 'District 9'),
+            ('state_county', 'Montgomery County, Maryland'),
+            ('state_county_subdivision',
+                ('District 9, Montgomery County, Maryland'),
             ('state_county_tract',
-                'Census Tract 7007.04'),
-            ('state_county_blockgroup', 'Block Group 1'),
-            ('state_place', 'Gaithersburg city'),
+                'Census Tract 7007.04, Montgomery County, Maryland'),
+            ('state_county_blockgroup',
+                ('Block Group 1, Census Tract 7007.04, '
+                 'Montgomery County, Maryland')),
+            ('state_place', 'Gaithersburg city, Maryland'),
             ('state_congressional_district',
-                'Congressional District 6'),
+                'Congressional District 6 (111th Congress), Maryland'),
             ('state_msa',
                 ('Washington-Arlington-Alexandria, '
-                    'DC-VA-MD-WV Metro Area (part)')),
+                    'DC-VA-MD-WV Metro Area (part); Maryland')),
             ('state_csa',
                 ('Washington-Baltimore-Northern Virginia, '
-                    'DC-MD-VA-WV CSA (part)')),
+                    'DC-MD-VA-WV CSA (part); Maryland')),
             # ('state_district_place', 'District 9'),
-            ('state_zipcode', 'ZCTA5 20877'),
+            ('state_zipcode', 'ZCTA5 20877, Maryland'),
         )
 
         self.check_endpoints('sf1', tests)

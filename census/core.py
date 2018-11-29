@@ -371,6 +371,28 @@ class SF1Client(Client):
 
     years = (2010, 2000, 1990)
 
+    def _switch_endpoints(self, year):
+
+        if year > 2000:
+            self.endpoint_url = 'https://api.census.gov/data/%s/dec/%s'
+            self.definitions_url = 'https://api.census.gov/data/%s/dec/%s/variables.json'
+            self.definition_url = 'https://api.census.gov/data/%s/dec/%s/variables/%s.json'
+            self.groups_url = 'https://api.census.gov/data/%s/dec/%s/groups.json'
+        else:
+            self.endpoint_url = super(ACSClient, self).endpoint_url
+            self.definitions_url = super(ACSClient, self).definitions_url
+            self.definition_url = super(ACSClient, self).definition_url
+            self.groups_url = super(ACSClient, self).groups_url
+
+    def tables(self, *args, **kwargs):
+        self._switch_endpoints(kwargs.get('year', self.default_year))
+        return super(SF1Client, self).tables(*args, **kwargs)
+
+    def get(self, *args, **kwargs):
+        self._switch_endpoints(kwargs.get('year', self.default_year))
+
+        return super(SF1Client, self).get(*args, **kwargs)
+
     @supported_years()
     def state_county_subdivision(self, fields, state_fips,
                                  county_fips, subdiv_fips, **kwargs):
@@ -402,14 +424,14 @@ class SF1Client(Client):
     def state_msa(self, fields, state_fips, msa, **kwargs):
         return self.get(fields, geo={
             'for': ('metropolitan statistical area/' +
-                    'micropolitan statistical area:{}'.format(msa)),
+                    'micropolitan statistical area (or part):{}'.format(msa)),
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 
     @supported_years(2010)
     def state_csa(self, fields, state_fips, csa, **kwargs):
         return self.get(fields, geo={
-            'for': 'combined statistical area:{}'.format(csa),
+            'for': 'combined statistical area (or part):{}'.format(csa),
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 
@@ -417,7 +439,7 @@ class SF1Client(Client):
     def state_district_place(self, fields, state_fips,
                              district, place, **kwargs):
         return self.get(fields, geo={
-            'for': 'place:{}'.format(place),
+            'for': 'place/remainder (or part):{}'.format(place),
             'in': 'state:{} congressional district:{}'.format(
                 state_fips, district),
         }, **kwargs)
@@ -425,7 +447,7 @@ class SF1Client(Client):
     @supported_years(2010)
     def state_zipcode(self, fields, state_fips, zcta, **kwargs):
         return self.get(fields, geo={
-            'for': 'zip code tabulation area:{}'.format(zcta),
+            'for': 'zip code tabulation area (or part):{}'.format(zcta),
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 
