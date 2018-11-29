@@ -190,7 +190,7 @@ class TestEndpoints(CensusTestCase):
             ('state', 'Maryland'),
             ('state_county', 'Montgomery County, Maryland'),
             ('state_county_subdivision',
-                ('District 9, Montgomery County, Maryland'),
+                ('District 9, Montgomery County, Maryland')),
             ('state_county_tract',
                 'Census Tract 7007.04, Montgomery County, Maryland'),
             ('state_county_blockgroup',
