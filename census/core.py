@@ -186,6 +186,7 @@ class Client(object):
         types = {"fips-for" : str,
                  "fips-in" : str,
                  "int" : float_or_str,
+                 "float": float,
                  "string": str}
 
         if resp.status_code == 200:
