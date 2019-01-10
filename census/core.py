@@ -55,6 +55,26 @@ def supported_years(*years):
         return wrapper
     return inner
 
+
+def retry_on_system_unavailable(func):
+
+    def wrapper(self, *args, **kwargs):
+        for _ in range(max(self.retries - 1, 0)):
+            try:
+                result = func(self, *args, **kwargs)
+            except CensusException as e:
+                if "There was an error while running your query.  We've logged the error and we'll correct it ASAP.  Sorry for the inconvenience." in str(e):
+                    pass
+                else:
+                    raise
+            else:
+                return result
+        else:
+            return func(self, *args, **kwargs)
+
+    return wrapper
+
+
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
     for i in range(0, len(l), n):
@@ -78,11 +98,12 @@ class Client(object):
     definition_url = 'https://api.census.gov/data/%s/%s/variables/%s.json'
     groups_url = 'https://api.census.gov/data/%s/%s/groups.json'
 
-    def __init__(self, key, year=None, session=None):
+    def __init__(self, key, year=None, session=None, retries=3):
         self._key = key
         self.session = session or new_session()
         if year:
             self.default_year = year
+        self.retries = retries
 
     def tables(self, year=None):
         """
@@ -135,7 +156,7 @@ class Client(object):
 
         return merged_results
 
-
+    @retry_on_system_unavailable
     def query(self, fields, geo, year=None, **kwargs):
         if year is None:
             year = self.default_year
