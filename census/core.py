@@ -56,7 +56,7 @@ def supported_years(*years):
     return inner
 
 
-def retry_on_system_unavailable(func):
+def retry_on_transient_error(func):
 
     def wrapper(self, *args, **kwargs):
         for _ in range(max(self.retries - 1, 0)):
@@ -156,7 +156,7 @@ class Client(object):
 
         return merged_results
 
-    @retry_on_system_unavailable
+    @retry_on_transient_error
     def query(self, fields, geo, year=None, **kwargs):
         if year is None:
             year = self.default_year
