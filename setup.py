@@ -4,7 +4,7 @@ long_description = open('README.rst').read()
 
 setup(
     name="census",
-    version="0.8.11",
+    version="0.8.12",
     py_modules=['census'],
     author="Jeremy Carbaugh",
     author_email='jcarbaugh@sunlightfoundation.com',
