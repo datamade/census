@@ -264,6 +264,29 @@ class TestEndpoints(CensusTestCase):
         assert res_2016_2016 == res_2014_2016
         assert res_2014_2014 == res_2016_2014
 
+    def test_older_sf1(self):
+        client = Census(KEY)
+        result_2010 = client.sf1.get(
+            ('P008001', # total
+             'P008003', # white
+             'P008004', # black
+             'P008006', # asian
+             'P008010', # latino
+            ),
+            geo={'for':'place:53476', 'in':'state:06'},
+        )
+        result_2000 = client.sf1.get(
+            ('P008001', # total
+             'P008003', # white
+             'P008004', # black
+             'P008006', # asian
+             'P008010', # latino
+            ),
+            geo={'for':'place:53476', 'in':'state:06'},
+            year=2000,
+        )
+        assert result_2010 != result_2000
+
 
 if __name__ == '__main__':
     unittest.main()

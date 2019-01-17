@@ -401,10 +401,10 @@ class SF1Client(Client):
             self.definition_url = 'https://api.census.gov/data/%s/dec/%s/variables/%s.json'
             self.groups_url = 'https://api.census.gov/data/%s/dec/%s/groups.json'
         else:
-            self.endpoint_url = super(ACSClient, self).endpoint_url
-            self.definitions_url = super(ACSClient, self).definitions_url
-            self.definition_url = super(ACSClient, self).definition_url
-            self.groups_url = super(ACSClient, self).groups_url
+            self.endpoint_url = super(SF1Client, self).endpoint_url
+            self.definitions_url = super(SF1Client, self).definitions_url
+            self.definition_url = super(SF1Client, self).definition_url
+            self.groups_url = super(SF1Client, self).groups_url
 
     def tables(self, *args, **kwargs):
         self._switch_endpoints(kwargs.get('year', self.default_year))
