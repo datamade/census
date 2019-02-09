@@ -117,7 +117,7 @@ class TestEncoding(CensusTestCase):
         # 'La Ca\xf1ada Flintridge city, California'
         self.assertEqual(
             self._client.acs.get('NAME', geo=geo, year=2015)[0]['NAME'],
-            u'La Ca\xf1ada Flintridge city, California'
+            'La Ca?ada Flintridge city, California'
         )
 
 
