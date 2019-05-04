@@ -3,12 +3,13 @@
 import os
 import time
 import unittest
+from unittest import mock
 from contextlib import closing
 
 import requests
 
 from census.core import (
-    Census, UnsupportedYearException)
+    Census, UnsupportedYearException, CensusException)
 
 KEY = os.environ.get('CENSUS_KEY', '')
 
@@ -119,6 +120,58 @@ class TestEncoding(CensusTestCase):
             self._client.acs.get('NAME', geo=geo, year=2015)[0]['NAME'],
             'La Ca?ada Flintridge city, California'
         )
+
+
+@mock.patch('census.core.Client.get', autospec=True, return_value=[{'var': -666666666.0}])
+class TestCodedValues(CensusTestCase):
+    """
+    Unit tests for handling coded values, like -66666666 and -999999999.
+    """
+    def test_handle_666666666_as_null(self, mock_get):
+        """
+        Test casting -666666666 values to null.
+        """
+        return_val = self._client.acs5.get('NAME',
+                                           {'for': 'state:*'},
+                                           year=2016,
+                                           handle_nulls=True)
+        self.assertEqual(return_val, [{'var': None}])
+
+    def test_handle_666666666_as_error(self, mock_get):
+        """
+        Test raising an error for -666666666 values.
+        """
+        with self.assertRaises(CensusException):
+            self._client.acs5.get('NAME',
+                                  {'for': 'state:*'},
+                                  year=2016,
+                                  handle_nulls=False)
+
+    def test_handle_666666666_default(self, mock_get):
+        """
+        Test the default behavior of handling -666666666 values, which is to
+        cast them to null.
+        """
+        return_val = self._client.acs5.get('NAME', {'for': 'state:*'}, year=2016)
+        self.assertEqual(return_val, [{'var': None}])
+
+
+class TestCodedValuesIntegration(CensusTestCase):
+    """
+    Integration tests for handling coded values, like -666666666 and -999999999.
+    """
+    def test_handle_666666666(self):
+        """
+        Test the default behavior of handling -666666666 values, which is to
+        cast them to null.
+        """
+        # This call should return a value of -666666666
+        return_val = self._client.acs5.state_county_tract('B19081_001E',
+                                                          42,
+                                                          101,
+                                                          '989100',
+                                                          year=2016)
+        self.assertEqual(return_val[0]['B19081_001E'], None)
 
 
 class TestEndpoints(CensusTestCase):
