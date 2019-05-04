@@ -3,7 +3,6 @@
 import os
 import time
 import unittest
-from unittest import mock
 from contextlib import closing
 
 import requests
@@ -122,43 +121,9 @@ class TestEncoding(CensusTestCase):
         )
 
 
-@mock.patch('census.core.Client.get', autospec=True, return_value=[{'var': -666666666.0}])
 class TestCodedValues(CensusTestCase):
     """
-    Unit tests for handling coded values, like -66666666 and -999999999.
-    """
-    def test_handle_666666666_as_null(self, mock_get):
-        """
-        Test casting -666666666 values to null.
-        """
-        return_val = self._client.acs5.get('NAME',
-                                           {'for': 'state:*'},
-                                           year=2016,
-                                           handle_nulls=True)
-        self.assertEqual(return_val, [{'var': None}])
-
-    def test_handle_666666666_as_error(self, mock_get):
-        """
-        Test raising an error for -666666666 values.
-        """
-        with self.assertRaises(CensusException):
-            self._client.acs5.get('NAME',
-                                  {'for': 'state:*'},
-                                  year=2016,
-                                  handle_nulls=False)
-
-    def test_handle_666666666_default(self, mock_get):
-        """
-        Test the default behavior of handling -666666666 values, which is to
-        cast them to null.
-        """
-        return_val = self._client.acs5.get('NAME', {'for': 'state:*'}, year=2016)
-        self.assertEqual(return_val, [{'var': None}])
-
-
-class TestCodedValuesIntegration(CensusTestCase):
-    """
-    Integration tests for handling coded values, like -666666666 and -999999999.
+    Tests for handling coded values, like -666666666 and -999999999.
     """
     def test_handle_666666666(self):
         """
@@ -172,6 +137,49 @@ class TestCodedValuesIntegration(CensusTestCase):
                                                           '989100',
                                                           year=2016)
         self.assertEqual(return_val[0]['B19081_001E'], None)
+
+    def test_handle_666666666_as_error(self):
+        """
+        Test raising an error for -666666666 values.
+        """
+        with self.assertRaises(CensusException):
+            return_val = self._client.acs5.state_county_tract('B19081_001E',
+                                                              42,
+                                                              101,
+                                                              '989100',
+                                                              year=2016,
+                                                              cast_nulls=False)
+
+    def test_handle_666666666_as_null(self):
+        """
+        Test casting -666666666 values to null.
+        """
+        return_val = self._client.acs5.state_county_tract('B19081_001E',
+                                                          42,
+                                                          101,
+                                                          '989100',
+                                                          year=2016,
+                                                          cast_nulls=True)
+        self.assertEqual(return_val[0]['B19081_001E'], None)
+
+    def test_bad_cast_nulls_argument(self):
+        """
+        Test that an error gets raised for poorly-formated cast_nulls argument.
+        """
+        with self.assertRaises(CensusException):
+            return_val = self._client.acs5.state('NAME',
+                                                 Census.ALL,
+                                                 cast_nulls='foobar')
+
+        with self.assertRaises(CensusException):
+            return_val = self._client.acs5.state('NAME',
+                                                 Census.ALL,
+                                                 cast_nulls=None)
+
+        with self.assertRaises(CensusException):
+            return_val = self._client.acs5.state('NAME',
+                                                 Census.ALL,
+                                                 cast_nulls=10)
 
 
 class TestEndpoints(CensusTestCase):

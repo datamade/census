@@ -36,7 +36,42 @@ def list_or_str(v):
         return v
     return [v]
 
+def cast_nulls(func):
+    """
+    Decorator to format null values in API result casting functions.
+    """
+    def null_wrapper(v, cast_nulls):
+        # This value indicates that there were too few observations to compute
+        # an estimate. See:
+        # https://www.census.gov/data/developers/data-sets/acs-1year/notes-on-acs-estimate-and-annotation-values.html
+        if str(v) == '-666666666':
+            if cast_nulls is True:
+                return None
+            else:
+                raise NullValueException('Unhandled coded value: ', str(v))
+        else:
+            return func(v)
+    return null_wrapper
+
+@cast_nulls
+def to_str(v):
+    """
+    Cast an API result to a string.
+    """
+    return str(v)
+
+@cast_nulls
+def to_float(v):
+    """
+    Cast an API result to a float.
+    """
+    return float(v)
+
+@cast_nulls
 def float_or_str(v):
+    """
+    Try casting an API result to a float, and fall back to a string.
+    """
     try:
         return float(v)
     except ValueError:
@@ -89,6 +124,10 @@ class CensusException(Exception):
 
 
 class UnsupportedYearException(CensusException):
+    pass
+
+
+class NullValueException(Exception):
     pass
 
 
@@ -158,6 +197,10 @@ class Client(object):
 
     @retry_on_transient_error
     def query(self, fields, geo, year=None, **kwargs):
+        cast_nulls = kwargs.get('cast_nulls', True)
+        if cast_nulls not in [True, False]:
+            raise CensusException('cast_nulls argument must be True or False')
+
         if year is None:
             year = self.default_year
 
@@ -187,10 +230,31 @@ class Client(object):
 
             headers = data.pop(0)
             types = [self._field_type(header, year) for header in headers]
-            results = [{header : (cast(item) if item is not None else None)
-                        for header, cast, item
-                        in zip(headers, types, d)}
-                       for d in data]
+            results = []
+            error = False
+            for d in data:
+                row = []
+                for header, cast, item in zip(headers, types, d):
+                    if item is not None:
+                        try:
+                            result = {header: cast(item, cast_nulls)}
+                        except NullValueException:
+                            # This value needs to raise an error, but we need the
+                            # rest of the row values for context, so flag the
+                            # error and continue the iteration
+                            error = True
+                            result = {header: item}
+                    else:
+                        result = None
+                    row.append(result)
+                if error:
+                    msg = 'Null estimate code found: ' + str(row)
+                    msg += '\nSee the Census documentation for more information:'
+                    msg += '\nhttps://www.census.gov/data/developers/data-sets/acs-1year/notes-on-acs-estimate-and-annotation-values.html'
+                    raise CensusException(msg)
+                else:
+                    for result in row:
+                        results.append(result)
             return results
 
         elif resp.status_code == 204:
@@ -204,17 +268,17 @@ class Client(object):
         url = self.definition_url % (year, self.dataset, field)
         resp = self.session.get(url)
 
-        types = {"fips-for" : str,
-                 "fips-in" : str,
+        types = {"fips-for" : to_str,
+                 "fips-in" : to_str,
                  "int" : float_or_str,
-                 "float": float,
-                 "string": str}
+                 "float": to_float,
+                 "string": to_str}
 
         if resp.status_code == 200:
             predicate_type = resp.json().get("predicateType", "string")
             return types[predicate_type]
         else:
-            return str
+            return to_str
 
     @supported_years()
     def us(self, fields, **kwargs):
