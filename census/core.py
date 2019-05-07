@@ -233,28 +233,27 @@ class Client(object):
             results = []
             error = False
             for d in data:
-                row = []
+                result = {}
                 for header, cast, item in zip(headers, types, d):
                     if item is not None:
                         try:
-                            result = {header: cast(item, cast_nulls)}
+                            var_value = cast(item, cast_nulls)
                         except NullValueException:
                             # This value needs to raise an error, but we need the
-                            # rest of the row values for context, so flag the
+                            # rest of the result values for context, so flag the
                             # error and continue the iteration
                             error = True
-                            result = {header: item}
+                            var_value = item
                     else:
-                        result = None
-                    row.append(result)
+                        var_value = None
+                    result[header] = var_value
                 if error:
-                    msg = 'Null estimate code found: ' + str(row)
+                    msg = 'Null estimate code found: ' + str(result)
                     msg += '\nSee the Census documentation for more information:'
                     msg += '\nhttps://www.census.gov/data/developers/data-sets/acs-1year/notes-on-acs-estimate-and-annotation-values.html'
                     raise CensusException(msg)
                 else:
-                    for result in row:
-                        results.append(result)
+                    results.append(result)
             return results
 
         elif resp.status_code == 204:
