@@ -302,7 +302,7 @@ class ACS5Client(ACSClient):
     default_year = 2018
     dataset = 'acs5'
 
-    years = tuple(list(range(2018,2008,-1))))
+    years = tuple(range(2018,2008,-1))
 
     @supported_years()
     def state_county_subdivision(self, fields, state_fips,
@@ -341,7 +341,7 @@ class ACS5DpClient(ACS5Client):
 
     dataset = 'acs5/profile'
 
-    years = tuple(list(range(2018,2011,-1))))
+    years = tuple(range(2018,2011,-1))
 
 
 class ACS3Client(ACSClient):
@@ -369,7 +369,7 @@ class ACS1Client(ACSClient):
     default_year = 2017
     dataset = 'acs1'
 
-    years = tuple(list(range(2018,2010,-1))))
+    years = tuple(range(2018,2010,-1))
 
     @supported_years()
     def state_county_subdivision(self, fields, state_fips,
@@ -383,7 +383,7 @@ class ACS1DpClient(ACS1Client):
 
     dataset = 'acs1/profile'
 
-    years = tuple(list(range(2018,2011,-1))))
+    years = tuple(range(2018,2011,-1))
 
 
 class SF1Client(Client):
