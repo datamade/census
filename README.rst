@@ -50,8 +50,9 @@ second parameter is a geoemtry dict with a `for` key and on option `in` key. The
 `for` argument accepts a `"*"` wildcard character or `Census.ALL`. The wildcard
 is not valid for the `in` parameter.
 
-The default year is 2016. To access earlier data, pass a year parameter to the
-API call::
+The default year is 2017 for ACS5 and ACS1 and their Data Profiles, 2013 for ACS3
+and its Data Profile, 2010 for SF1, and 2000 for SF3. To access earlier data,
+pass a year parameter to the API call::
 
     c.acs5.state(('NAME', 'B25034_010E'), states.MD.fips, year=2010)
 
@@ -63,10 +64,16 @@ The default year may also be set client-wide::
 Datasets
 ========
 
-* acs5: ACS 5 Year Estimates (2016, 2015, 2014, 2013, 2012, 2011, 2010)
-* acs1dp: ACS 1 Year Estimates, Data Profiles (2016, 2015, 2014, 2013, 2012)
-* sf1: Census Summary File 1 (2010, 2000, 1990)
-* sf3: Census Summary File 3 (2000, 1990)
+For each dataset, the first year listed is the default.
+
+* acs5: `ACS 5 Year Estimates <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
+* acs3: `ACS 3 Year Estimates <https://www.census.gov/data/developers/data-sets/acs-3year.html>`_ (2013, 2012)
+* acs1: `ACS 1 Year Estimates <https://www.census.gov/data/developers/data-sets/acs-1year.html>`_ (2017, 2016, 2015, 2014, 2013, 2012, 2011)
+* acs5dp: `ACS 5 Year Estimates, Data Profiles  <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
+* acs3dp: `ACS 3 Year Estimates, Data Profiles <https://www.census.gov/data/developers/data-sets/acs-3year.html>`_ (2013, 2012)
+* acs1dp: `ACS 1 Year Estimates, Data Profiles <https://www.census.gov/data/developers/data-sets/acs-1year.html>`_ (2017, 2016, 2015, 2014, 2013, 2012, 2011)
+* sf1: `Census Summary File 1 <https://www.census.gov/data/datasets/2010/dec/summary-file-1.html>`_ (2010, 2000, 1990)
+* sf3: `Census Summary File 3 <https://www.census.gov/census2000/sumfile3.html>`_ (2000, 1990)
 
 
 Geographies
