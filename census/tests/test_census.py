@@ -97,7 +97,7 @@ class TestEncoding(CensusTestCase):
     """
     def test_la_canada_2015(self):
         """
-        The 'La Cañada Flintridge city, California' place can be a problem in Python 2.7.
+        The 'La Cañada Flintridge city, California' place can be a problem.
         """
         # 2017 and 2016 is returned as:
         # 'La Ca?ada Flintridge city, California'
