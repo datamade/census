@@ -99,25 +99,23 @@ class TestEncoding(CensusTestCase):
         """
         The 'La Cañada Flintridge city, California' place can be a problem.
         """
-        # 2017 and 2016 is returned as:
-        # 'La Ca?ada Flintridge city, California'
         geo = {
             'for': 'place:39003',
             'in': u'state:06'
         }
         self.assertEqual(
             self._client.acs5.get('NAME', geo=geo)[0]['NAME'],
-            u'La Ca\xf1ada Flintridge city, California'
+            u'La Cañada Flintridge city, California'
         )
         self.assertEqual(
             self._client.acs.get('NAME', geo=geo, year=2016)[0]['NAME'],
-            'La Ca?ada Flintridge city, California'
+            'La Cañada Flintridge city, California'
         )
         # 2015 is returned as:
         # 'La Ca\xf1ada Flintridge city, California'
         self.assertEqual(
             self._client.acs.get('NAME', geo=geo, year=2015)[0]['NAME'],
-            'La Ca?ada Flintridge city, California'
+            'La Cañada Flintridge city, California'
         )
 
 
@@ -161,13 +159,13 @@ class TestEndpoints(CensusTestCase):
                     'Montgomery County, Maryland')),
             ('state_place', 'Gaithersburg city, Maryland'),
             ('state_district',
-                'Congressional District 6 (115th Congress), Maryland'),
+                'Congressional District 6 (116th Congress), Maryland'),
             ('state_congressional_district',
-                'Congressional District 6 (115th Congress), Maryland'),
+                'Congressional District 6 (116th Congress), Maryland'),
             ('state_legislative_district_upper',
-                'State Senate District 7 (2016), Maryland'),
+                'State Senate District 7 (2018), Maryland'),
             ('state_legislative_district_lower',
-                'State Legislative District 7 (2016), Maryland'),
+                'State Legislative District 7 (2018), Maryland'),
             ('zipcode', 'ZCTA5 20877'),
         )
 
@@ -179,7 +177,7 @@ class TestEndpoints(CensusTestCase):
             ('us', 'United States'),
             ('state', 'Maryland'),
             ('state_congressional_district',
-                'Congressional District 6 (115th Congress), Maryland'),
+                'Congressional District 6 (116th Congress), Maryland'),
         )
 
         self.check_endpoints('acs1dp', tests)

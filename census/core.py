@@ -299,10 +299,10 @@ class ACSClient(Client):
 
 class ACS5Client(ACSClient):
 
-    default_year = 2017
+    default_year = 2018
     dataset = 'acs5'
 
-    years = (2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
+    years = (2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
 
     @supported_years()
     def state_county_subdivision(self, fields, state_fips,
@@ -331,7 +331,7 @@ class ACS5Client(ACSClient):
             geo['in'] += ' tract:{}'.format(tract)
         return self.get(fields, geo=geo, **kwargs)
 
-    @supported_years(2017, 2016, 2015, 2014, 2013, 2012, 2011)
+    @supported_years(2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
     def zipcode(self, fields, zcta, **kwargs):
         return self.get(fields, geo={
             'for': 'zip code tabulation area:{}'.format(zcta),
@@ -341,7 +341,7 @@ class ACS5DpClient(ACS5Client):
 
     dataset = 'acs5/profile'
 
-    years = (2017, 2016, 2015, 2014, 2013, 2012)
+    years = (2018, 2017, 2016, 2015, 2014, 2013, 2012)
 
 
 class ACS3Client(ACSClient):
@@ -366,10 +366,10 @@ class ACS3DpClient(ACS3Client):
 
 class ACS1Client(ACSClient):
 
-    default_year = 2017
+    default_year = 2018
     dataset = 'acs1'
 
-    years = (2017, 2016, 2015, 2014, 2013, 2012, 2011)
+    years = (2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
 
     @supported_years()
     def state_county_subdivision(self, fields, state_fips,
@@ -383,7 +383,7 @@ class ACS1DpClient(ACS1Client):
 
     dataset = 'acs1/profile'
 
-    years = (2017, 2016, 2015, 2014, 2013, 2012)
+    years = (2018, 2017, 2016, 2015, 2014, 2013, 2012)
 
 
 class SF1Client(Client):
