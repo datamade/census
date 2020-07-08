@@ -345,7 +345,7 @@ class ACS5DpClient(ACS5Client):
 
 class ACS5SubjectClient(ACS5Client):
 
-    dataset = 'acs/acs5/subject'
+    dataset = 'acs5/subject'
 
     years = (2018, 2017, 2016, 2015, 2014, 2013, 2012)
     
