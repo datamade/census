@@ -344,7 +344,11 @@ class ACS5DpClient(ACS5Client):
     years = (2018, 2017, 2016, 2015, 2014, 2013, 2012)
 
 class ACS5SubjectClient(ACS5Client):
-
+    def _switch_endpoints(self, year):
+        self.endpoint_url = 'https://api.census.gov/data/%s/acs/%s'
+        self.definitions_url = 'https://api.census.gov/data/%s/acs/%s/variables.json'
+        self.definition_url = 'https://api.census.gov/data/%s/acs/%s/variables/%s.json'
+    
     dataset = 'acs5/subject'
 
     years = (2018, 2017, 2016, 2015, 2014, 2013, 2012)
