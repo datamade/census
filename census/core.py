@@ -343,7 +343,16 @@ class ACS5DpClient(ACS5Client):
 
     years = (2018, 2017, 2016, 2015, 2014, 2013, 2012)
 
+class ACS5StClient(ACS5Client):
+    def _switch_endpoints(self, year):
+        self.endpoint_url = 'https://api.census.gov/data/%s/acs/%s'
+        self.definitions_url = 'https://api.census.gov/data/%s/acs/%s/variables.json'
+        self.definition_url = 'https://api.census.gov/data/%s/acs/%s/variables/%s.json'
+    
+    dataset = 'acs5/subject'
 
+    years = (2018, 2017, 2016, 2015, 2014, 2013, 2012)
+    
 class ACS3Client(ACSClient):
 
     default_year = 2013
@@ -518,6 +527,7 @@ class Census(object):
         self.acs5 = ACS5Client(key, year, session)
         self.acs3 = ACS3Client(key, year, session)
         self.acs1 = ACS1Client(key, year, session)
+        self.acs5st = ACS5StClient(key, year, session)
         self.acs5dp = ACS5DpClient(key, year, session)
         self.acs3dp = ACS3DpClient(key, year, session)
         self.acs1dp = ACS1DpClient(key, year, session)

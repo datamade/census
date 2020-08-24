@@ -74,6 +74,11 @@ class TestUnsupportedYears(CensusTestCase):
         client = self.client('acs5')
         self.assertRaises(UnsupportedYearException,
                           client.state, ('NAME', '06'))
+        
+    def test_acs5st(self):
+        client = self.client('acs5st')
+        self.assertRaises(UnsupportedYearException,
+                          client.state, ('NAME', '06'))
 
     def test_acs1dp(self):
         client = self.client('acs1dp')
@@ -171,6 +176,17 @@ class TestEndpoints(CensusTestCase):
 
         self.check_endpoints('acs5', tests)
 
+    def test_acs5st(self):
+
+        tests = (
+            ('us', 'United States'),
+            ('state', 'Maryland'),
+            ('state_congressional_district',
+                'Congressional District 6 (116th Congress), Maryland'),
+        )
+
+        self.check_endpoints('acs5st', tests)
+    
     def test_acs1dp(self):
 
         tests = (
@@ -181,6 +197,7 @@ class TestEndpoints(CensusTestCase):
         )
 
         self.check_endpoints('acs1dp', tests)
+
 
     def test_sf1(self):
 
