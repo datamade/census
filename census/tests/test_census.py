@@ -185,7 +185,7 @@ class TestEndpoints(CensusTestCase):
                 'Congressional District 6 (116th Congress), Maryland'),
         )
 
-        self.check_endpoints('acs1dp', tests)
+        self.check_endpoints('acs5st', tests)
     
     def test_acs1dp(self):
 
@@ -196,7 +196,7 @@ class TestEndpoints(CensusTestCase):
                 'Congressional District 6 (116th Congress), Maryland'),
         )
 
-        self.check_endpoints('acs5st', tests)
+        self.check_endpoints('acs1dp', tests)
 
 
     def test_sf1(self):
