@@ -348,6 +348,7 @@ class ACS5StClient(ACS5Client):
         self.endpoint_url = 'https://api.census.gov/data/%s/acs/%s'
         self.definitions_url = 'https://api.census.gov/data/%s/acs/%s/variables.json'
         self.definition_url = 'https://api.census.gov/data/%s/acs/%s/variables/%s.json'
+        self.groups_url = 'https://api.census.gov/data/%s/acs/%s/groups.json'
     
     dataset = 'acs5/subject'
 
