@@ -378,7 +378,7 @@ class ACS1Client(ACSClient):
     default_year = 2018
     dataset = 'acs1'
 
-    years = (2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
+    years = (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010)
 
     @supported_years()
     def state_county_subdivision(self, fields, state_fips,
@@ -392,7 +392,10 @@ class ACS1DpClient(ACS1Client):
 
     dataset = 'acs1/profile'
 
-    years = (2018, 2017, 2016, 2015, 2014, 2013, 2012)
+
+class ACS1StClient(ACS1Client):
+
+    dataset = 'acs1/subject'
 
 
 class SF1Client(Client):
@@ -528,6 +531,7 @@ class Census(object):
         self.acs3 = ACS3Client(key, year, session)
         self.acs1 = ACS1Client(key, year, session)
         self.acs5st = ACS5StClient(key, year, session)
+        self.acs1st = ACS1StClient(key, year, session)
         self.acs5dp = ACS5DpClient(key, year, session)
         self.acs3dp = ACS3DpClient(key, year, session)
         self.acs1dp = ACS1DpClient(key, year, session)
