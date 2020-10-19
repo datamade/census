@@ -337,11 +337,11 @@ class ACS5Client(ACSClient):
             'for': 'zip code tabulation area:{}'.format(zcta),
         }, **kwargs)
 
+
 class ACS5DpClient(ACS5Client):
 
     dataset = 'acs5/profile'
 
-    years = (2018, 2017, 2016, 2015, 2014, 2013, 2012)
 
 class ACS5StClient(ACS5Client):
     def _switch_endpoints(self, year):
@@ -352,8 +352,7 @@ class ACS5StClient(ACS5Client):
     
     dataset = 'acs5/subject'
 
-    years = (2018, 2017, 2016, 2015, 2014, 2013, 2012)
-    
+
 class ACS3Client(ACSClient):
 
     default_year = 2013
