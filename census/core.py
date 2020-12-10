@@ -150,8 +150,13 @@ class Client(object):
         return data
 
     def get(self, fields, geo, year=None, **kwargs):
-        all_results = (self.query(fifty_fields, geo, year, **kwargs)
-                       for fifty_fields in chunks(fields, 50))
+        """
+        The API only accepts up to 50 fields on each query.
+        Edit the original function to include the GEO_ID in each chunk,
+        which we use to sort the results by GEO_ID in query().
+        """
+        all_results = (self.query(forty_nine_fields + ['GEO_ID'], geo, year, **kwargs)
+                       for forty_nine_fields in chunks(fields, 49))
         merged_results = [merge(result) for result in zip(*all_results)]
 
         return merged_results
@@ -191,6 +196,7 @@ class Client(object):
                         for header, cast, item
                         in zip(headers, types, d)}
                        for d in data]
+            results = sorted(results, key=lambda x: x['GEO_ID'])
             return results
 
         elif resp.status_code == 204:
