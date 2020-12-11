@@ -66,13 +66,13 @@ Datasets
 
 For each dataset, the first year listed is the default.
 
-* acs5: `ACS 5 Year Estimates <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
+* acs5: `ACS 5 Year Estimates <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
 * acs3: `ACS 3 Year Estimates <https://www.census.gov/data/developers/data-sets/acs-3year.html>`_ (2013, 2012)
-* acs1: `ACS 1 Year Estimates <https://www.census.gov/data/developers/data-sets/acs-1year.html>`_ (2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
-* acs5dp: `ACS 5 Year Estimates, Data Profiles  <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
+* acs1: `ACS 1 Year Estimates <https://www.census.gov/data/developers/data-sets/acs-1year.html>`_ (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
+* acs5dp: `ACS 5 Year Estimates, Data Profiles  <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
 * acs3dp: `ACS 3 Year Estimates, Data Profiles <https://www.census.gov/data/developers/data-sets/acs-3year.html>`_ (2013, 2012)
-* acs1dp: `ACS 1 Year Estimates, Data Profiles <https://www.census.gov/data/developers/data-sets/acs-1year.html>`_ (2017, 2016, 2015, 2014, 2013, 2012, 2011)
-* acs5st: `ACS 5 Year Estimates, Subject Tables <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
+* acs1dp: `ACS 1 Year Estimates, Data Profiles <https://www.census.gov/data/developers/data-sets/acs-1year.html>`_ (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
+* acs5st: `ACS 5 Year Estimates, Subject Tables <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
 * sf1: `Census Summary File 1 <https://www.census.gov/data/datasets/2010/dec/summary-file-1.html>`_ (2010, 2000, 1990)
 * sf3: `Census Summary File 3 <https://www.census.gov/census2000/sumfile3.html>`_ (2000, 1990)
 
