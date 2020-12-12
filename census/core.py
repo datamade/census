@@ -399,20 +399,14 @@ class SF1Client(Client):
     default_year = 2010
     dataset = 'sf1'
 
-    years = (2010, 2000, 1990)
+    years = (2010,)
 
     def _switch_endpoints(self, year):
 
-        if year > 2000:
-            self.endpoint_url = 'https://api.census.gov/data/%s/dec/%s'
-            self.definitions_url = 'https://api.census.gov/data/%s/dec/%s/variables.json'
-            self.definition_url = 'https://api.census.gov/data/%s/dec/%s/variables/%s.json'
-            self.groups_url = 'https://api.census.gov/data/%s/dec/%s/groups.json'
-        else:
-            self.endpoint_url = super(SF1Client, self).endpoint_url
-            self.definitions_url = super(SF1Client, self).definitions_url
-            self.definition_url = super(SF1Client, self).definition_url
-            self.groups_url = super(SF1Client, self).groups_url
+        self.endpoint_url = 'https://api.census.gov/data/%s/dec/%s'
+        self.definitions_url = 'https://api.census.gov/data/%s/dec/%s/variables.json'
+        self.definition_url = 'https://api.census.gov/data/%s/dec/%s/variables/%s.json'
+        self.groups_url = 'https://api.census.gov/data/%s/dec/%s/groups.json'
 
     def tables(self, *args, **kwargs):
         self._switch_endpoints(kwargs.get('year', self.default_year))
@@ -481,31 +475,6 @@ class SF1Client(Client):
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 
-class SF3Client(Client):
-
-    default_year = 2000
-    dataset = 'sf3'
-
-    years = (2000, 1990)
-
-    @supported_years()
-    def state_county_tract(self, fields, state_fips,
-                           county_fips, tract, **kwargs):
-        return self.get(fields, geo={
-            'for': 'tract:{}'.format(tract),
-            'in': 'state:{} county:{}'.format(state_fips, county_fips),
-        }, **kwargs)
-
-    @supported_years()
-    def state_county_blockgroup(self, fields, state_fips, county_fips,
-                                blockgroup, tract=None, **kwargs):
-        geo = {
-            'for': 'block group:{}'.format(blockgroup),
-            'in': 'state:{} county:{}'.format(state_fips, county_fips),
-        }
-        if tract:
-            geo['in'] += ' tract:{}'.format(tract)
-        return self.get(fields, geo=geo, **kwargs)
 
 class Census(object):
 
@@ -531,7 +500,6 @@ class Census(object):
         self.acs3dp = ACS3DpClient(key, year, session)
         self.acs1dp = ACS1DpClient(key, year, session)
         self.sf1 = SF1Client(key, year, session)
-        self.sf3 = SF3Client(key, year, session)
 
     @property
     def acs(self):

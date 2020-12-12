@@ -90,11 +90,6 @@ class TestUnsupportedYears(CensusTestCase):
         self.assertRaises(UnsupportedYearException,
                           client.state, ('NAME', '06'))
 
-    def test_sf3(self):
-        client = self.client('sf3')
-        self.assertRaises(UnsupportedYearException,
-                          client.state, ('NAME', '06'))
-
 
 class TestEncoding(CensusTestCase):
     """
@@ -225,19 +220,6 @@ class TestEndpoints(CensusTestCase):
         )
 
         self.check_endpoints('sf1', tests)
-
-    def test_sf3(self):
-
-        tests = (
-            ('state', 'Maryland'),
-            ('state_county', 'Montgomery County'),
-            ('state_county_tract',
-                'Census Tract 7007.04'),
-            ('state_county_blockgroup', 'Block Group 1'),
-            ('state_place', 'Gaithersburg city'),
-        )
-
-        self.check_endpoints('sf3', tests)
 
     def test_more_than_50(self):
         fields = ['B01001_003E', 'B01001_004E', 'B01001_005E',
