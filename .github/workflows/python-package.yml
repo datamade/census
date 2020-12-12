@@ -3,9 +3,11 @@
 
 name: Python package
 
-on:
+on: [push]
   push:
     branches: [ master ]
+  tags:
+    - v*
   pull_request:
     branches: [ master ]
 
@@ -38,3 +40,14 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+    - name: Build and publish
+      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      run: |
+        pip install twine wheel
+        pip wheel -w dist --no-deps .
+        python setup.py sdist
+        twine upload dist/*
+      continue-on-error: true
