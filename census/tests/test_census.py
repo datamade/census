@@ -3,9 +3,6 @@
 import os
 import time
 import unittest
-from contextlib import closing
-
-import requests
 
 from census.core import (
     Census, UnsupportedYearException)
@@ -74,7 +71,7 @@ class TestUnsupportedYears(CensusTestCase):
         client = self.client('acs5')
         self.assertRaises(UnsupportedYearException,
                           client.state, ('NAME', '06'))
-        
+
     def test_acs5st(self):
         client = self.client('acs5st')
         self.assertRaises(UnsupportedYearException,
@@ -95,6 +92,7 @@ class TestEncoding(CensusTestCase):
     """
     Test character encodings of results are properly handled.
     """
+
     def test_la_canada_2015(self):
         """
         The 'La Cañada Flintridge city, California' place can be a problem.
@@ -181,7 +179,7 @@ class TestEndpoints(CensusTestCase):
         )
 
         self.check_endpoints('acs5st', tests)
-    
+
     def test_acs1dp(self):
 
         tests = (
@@ -192,7 +190,6 @@ class TestEndpoints(CensusTestCase):
         )
 
         self.check_endpoints('acs1dp', tests)
-
 
     def test_sf1(self):
 
@@ -264,22 +261,22 @@ class TestEndpoints(CensusTestCase):
     def test_older_sf1(self):
         client = Census(KEY)
         result_2010 = client.sf1.get(
-            ('P008001', # total
-             'P008003', # white
-             'P008004', # black
-             'P008006', # asian
-             'P008010', # latino
-            ),
-            geo={'for':'place:53476', 'in':'state:06'},
+            ('P008001',  # total
+             'P008003',  # white
+             'P008004',  # black
+             'P008006',  # asian
+             'P008010',  # latino
+             ),
+            geo={'for': 'place:53476', 'in': 'state:06'},
         )
         result_2000 = client.sf1.get(
-            ('P008001', # total
-             'P008003', # white
-             'P008004', # black
-             'P008006', # asian
-             'P008010', # latino
-            ),
-            geo={'for':'place:53476', 'in':'state:06'},
+            ('P008001',  # total
+             'P008003',  # white
+             'P008004',  # black
+             'P008006',  # asian
+             'P008010',  # latino
+             ),
+            geo={'for': 'place:53476', 'in': 'state:06'},
             year=2000,
         )
         assert result_2010 != result_2000
