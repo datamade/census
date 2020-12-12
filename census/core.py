@@ -1,15 +1,6 @@
 import warnings
-from functools import wraps
+from functools import wraps, lru_cache
 
-from builtins import str
-
-try:
-    from functools import lru_cache
-except ImportError:
-    from backports.functools_lru_cache import lru_cache
-
-import pkg_resources
-__version__ = pkg_resources.require("census")[0].version
 
 ALL = '*'
 
