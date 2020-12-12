@@ -6,7 +6,7 @@ census
 
 A simple wrapper for the United States Census Bureau's API.
 
-Provides access to ACS, SF1, and SF3 data sets.
+Provides access to ACS and SF1 data sets.
 
 Install
 =======
@@ -50,8 +50,7 @@ second parameter is a geoemtry dict with a `for` key and on option `in` key. The
 `for` argument accepts a `"*"` wildcard character or `Census.ALL`. The wildcard
 is not valid for the `in` parameter.
 
-The default year is 2017 for ACS5 and ACS1 and their Data Profiles, 2013 for ACS3
-and its Data Profile, 2010 for SF1, and 2000 for SF3. To access earlier data,
+By default, the year for a dataset is the most recent year available. To access earlier data,
 pass a year parameter to the API call::
 
     c.acs5.state(('NAME', 'B25034_010E'), states.MD.fips, year=2010)
@@ -73,8 +72,7 @@ For each dataset, the first year listed is the default.
 * acs3dp: `ACS 3 Year Estimates, Data Profiles <https://www.census.gov/data/developers/data-sets/acs-3year.html>`_ (2013, 2012)
 * acs1dp: `ACS 1 Year Estimates, Data Profiles <https://www.census.gov/data/developers/data-sets/acs-1year.html>`_ (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
 * acs5st: `ACS 5 Year Estimates, Subject Tables <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
-* sf1: `Census Summary File 1 <https://www.census.gov/data/datasets/2010/dec/summary-file-1.html>`_ (2010, 2000, 1990)
-* sf3: `Census Summary File 3 <https://www.census.gov/census2000/sumfile3.html>`_ (2000, 1990)
+* sf1: `Census Summary File 1 <https://www.census.gov/data/datasets/2010/dec/summary-file-1.html>`_ (2010)
 
 
 Geographies
@@ -124,14 +122,6 @@ SF1 Geographies
 * state_csa(fields, state_fips, csa)
 * state_district_place(fields, state_fips, district, place)
 * state_zipcode(fields, state_fips, zip5)
-
-SF3 Geometries
---------------
-
-* state(fields, state_fips)
-* state_county(fields, state_fips, county_fips)
-* state_county_tract(fields, state_fips, county_fips, tract)
-* state_place(fields, state_fips, place)
 
 
 States
