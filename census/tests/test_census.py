@@ -264,6 +264,37 @@ class TestEndpoints(CensusTestCase):
         client = self.client('acs5')
         results = client.us(fields)
         assert set(results[0].keys()).issuperset(fields)
+    
+    def test_more_than_50_not_out_of_order(self):
+        fields = ['GEO_ID', 'B01001_001E', 'B01001_003E',
+                  'B01001_006E', 'B01001_007E', 'B01001_008E',
+                  'B01001_009E', 'B01001_010E', 'B01001_011E',
+                  'B01001_012E', 'B01001_013E', 'B01001_014E',
+                  'B01001_015E', 'B01001_016E', 'B01001_017E',
+                  'B01001_018E', 'B01001_019E', 'B01001_020E',
+                  'B01001_021E', 'B01001_022E', 'B01001_023E',
+                  'B01001_024E', 'B01001_025E', 'B01001_027E',
+                  'B01001_028E', 'B01001_029E', 'B01001_030E',
+                  'B01001_031E', 'B01001_032E', 'B01001_033E',
+                  'B01001_034E', 'B01001_035E', 'B01001_036E',
+                  'B01001_037E', 'B01001_038E', 'B01001_039E',
+                  'B01001_040E', 'B01001_041E', 'B01001_042E',
+                  'B01001_043E', 'B01001_044E', 'B01001_045E',
+                  'B01001_046E', 'B01001_047E', 'B01001_048E',
+                  'B01001_049E', 'B19001_003E', 'B19001_004E',
+                  'B19001_005E', 'B19001_006E', 'B19001_007E',
+                  'B19001_008E', 'B19001_009E', 'B19001_010E',
+                  'B19001_011E', 'B19001_012E', 'B19001_013E',
+                  'B19001_014E', 'B19001_015E', 'B19001_016E',
+                  'B03002_001E', ]
+
+        client = self.client('acs1')
+        results = client.state_county(fields, '*', '*', year=2018)
+        # We know that the last 5 digits of the GEO_ID are the FIPS code
+        # GEO_ID is grabbed in the first chunk (request), but the state and county are overwritten
+        # with each chunk and have the values from the last chunk
+        assert results[0]['GEO_ID'][-5:] == results[0]['state'] + \
+            results[0]['county']
 
     def test_new_style_endpoints(self):
         client = Census(KEY, year=2016)
