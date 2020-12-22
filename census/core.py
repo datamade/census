@@ -147,18 +147,30 @@ class Client(object):
         return data
 
     def get(self, fields, geo, year=None, **kwargs):
-        all_results = (self.query(fifty_fields, geo, year, **kwargs)
-                       for fifty_fields in chunks(fields, 50))
+        """
+        The API only accepts up to 50 fields on each query.
+        Chunk requests, and use the unique GEO_ID to match up the chunks
+        in case the responses are in different orders.
+        GEO_ID is not reliably present in pre-2010 requests.
+        """
+        sort_by_geoid = len(fields) > 49 and (not year or year > 2009)
+        all_results = (self.query(forty_nine_fields, geo, year, sort_by_geoid=sort_by_geoid, **kwargs)
+                       for forty_nine_fields in chunks(fields, 49))
         merged_results = [merge(result) for result in zip(*all_results)]
 
         return merged_results
 
     @retry_on_transient_error
-    def query(self, fields, geo, year=None, **kwargs):
+    def query(self, fields, geo, year=None, sort_by_geoid=False, **kwargs):
         if year is None:
             year = self.default_year
 
         fields = list_or_str(fields)
+        if sort_by_geoid:
+            if isinstance(fields, list):
+                fields += ['GEO_ID']
+            elif isinstance(fields, tuple):
+                fields += ('GEO_ID',)
 
         url = self.endpoint_url % (year, self.dataset)
 
@@ -188,6 +200,11 @@ class Client(object):
                         for header, cast, item
                         in zip(headers, types, d)}
                        for d in data]
+            if sort_by_geoid:
+                if 'GEO_ID' in fields:
+                    results = sorted(results, key=lambda x: x['GEO_ID'])
+                else:
+                    results = sorted(results, key=lambda x: x.pop('GEO_ID'))
             return results
 
         elif resp.status_code == 204:
