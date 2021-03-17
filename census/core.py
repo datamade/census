@@ -315,7 +315,7 @@ class ACSClient(Client):
 
 class ACS5Client(ACSClient):
 
-    default_year = 2018
+    default_year = 2019
     dataset = 'acs5'
 
     years = (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
@@ -392,7 +392,7 @@ class ACS3DpClient(ACS3Client):
 
 class ACS1Client(ACSClient):
 
-    default_year = 2018
+    default_year = 2019
     dataset = 'acs1'
 
     years = (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
