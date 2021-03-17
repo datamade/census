@@ -167,7 +167,7 @@ class TestEndpoints(CensusTestCase):
             ('zipcode', 'ZCTA5 20877'),
         )
 
-        self.check_endpoints('acs5', tests, year=2018)
+        self.check_endpoints('acs5', tests)
 
     def test_acs5st(self):
 
