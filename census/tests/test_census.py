@@ -164,7 +164,7 @@ class TestEndpoints(CensusTestCase):
                 'State Senate District 7 (2018), Maryland'),
             ('state_legislative_district_lower',
                 'State Legislative District 7 (2018), Maryland'),
-            ('zipcode', 'ZCTA5 20877'),
+            ('state_zipcode', 'ZCTA5 20877'),
         )
 
         self.check_endpoints('acs5', tests)

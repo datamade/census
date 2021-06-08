@@ -349,8 +349,20 @@ class ACS5Client(ACSClient):
 
     @supported_years(2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
     def zipcode(self, fields, zcta, **kwargs):
+        warnings.warn(
+            "zipcode has been deprecated; use state_zipcode instead",
+            DeprecationWarning
+        )
+
+        state_fips = kwargs.pop('state_fips')
+
+        return self.state_zipcode(fields, state_fips, zcta, **kwargs)
+
+    @supported_years(2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
+    def state_zipcode(self, fields, state_fips, zcta, **kwargs):
         return self.get(fields, geo={
             'for': 'zip code tabulation area:{}'.format(zcta),
+            'in': 'state:{}'.format(state_fips),
         }, **kwargs)
 
 
