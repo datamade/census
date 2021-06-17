@@ -100,7 +100,7 @@ ACS5 Geographies
 * state_legislative_district_upper(fields, state_fips, legislative_district)
 * state_legislative_district_lower(fields, state_fips, legislative_district)
 * us(fields)
-* zipcode(fields, zip5)
+* state_zipcode(fields, state_fips, zip5)
 
 ACS1 Geographies
 ----------------
