@@ -495,6 +495,57 @@ class SF1Client(Client):
         }, **kwargs)
 
 
+class PLClient(Client):
+
+    default_year = 2020
+    dataset = 'pl'
+
+    years = (2020, 2010, 2000)
+
+    def _switch_endpoints(self, year):
+
+        self.endpoint_url = 'https://api.census.gov/data/%s/dec/%s'
+        self.definitions_url = 'https://api.census.gov/data/%s/dec/%s/variables.json'
+        self.definition_url = 'https://api.census.gov/data/%s/dec/%s/variables/%s.json'
+        self.groups_url = 'https://api.census.gov/data/%s/dec/%s/groups.json'
+
+    def tables(self, *args, **kwargs):
+        self._switch_endpoints(kwargs.get('year', self.default_year))
+        return super(PLClient, self).tables(*args, **kwargs)
+
+    def get(self, *args, **kwargs):
+        self._switch_endpoints(kwargs.get('year', self.default_year))
+
+        return super(PLClient, self).get(*args, **kwargs)
+
+    @supported_years()
+    def state_county_subdivision(self, fields, state_fips,
+                                 county_fips, subdiv_fips, **kwargs):
+        return self.get(fields, geo={
+            'for': 'county subdivision:{}'.format(subdiv_fips),
+            'in': 'state:{} county:{}'.format(state_fips, county_fips),
+        }, **kwargs)
+
+    @supported_years()
+    def state_county_tract(self, fields, state_fips,
+                           county_fips, tract, **kwargs):
+        return self.get(fields, geo={
+            'for': 'tract:{}'.format(tract),
+            'in': 'state:{} county:{}'.format(state_fips, county_fips),
+        }, **kwargs)
+
+    @supported_years()
+    def state_county_blockgroup(self, fields, state_fips, county_fips,
+                                blockgroup, tract=None, **kwargs):
+        geo = {
+            'for': 'block group:{}'.format(blockgroup),
+            'in': 'state:{} county:{}'.format(state_fips, county_fips),
+        }
+        if tract:
+            geo['in'] += ' tract:{}'.format(tract)
+        return self.get(fields, geo=geo, **kwargs)
+
+
 class Census(object):
 
     ALL = ALL
@@ -519,6 +570,7 @@ class Census(object):
         self.acs3dp = ACS3DpClient(key, year, session)
         self.acs1dp = ACS1DpClient(key, year, session)
         self.sf1 = SF1Client(key, year, session)
+        self.pl = PLClient(key, year, session)
 
     @property
     def acs(self):
