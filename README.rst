@@ -60,6 +60,8 @@ The default year may also be set client-wide::
     c = Census("MY_API_KEY", year=2010)
 
 
+Detailed information about the API can be found at the `Census Data API User Guide <https://www.census.gov/data/developers/guidance/api-user-guide.html>`_.
+
 Datasets
 ========
 
