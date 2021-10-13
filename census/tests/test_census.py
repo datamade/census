@@ -32,13 +32,20 @@ CLIENTS = (
         'state', 'state_county', 'state_county_tract',
         'state_county_blockgroup', 'state_place',
     )),
+    ('pl', (
+        'us', 'state', 'state_county', 'state_county_subdivision',
+        'state_county_tract', 'state_county_blockgroup',
+        'state_place', 'state_congressional_district',
+        'state_legislative_district_upper',
+        'state_legislative_district_lower',
+    ))
 )
 
 TEST_DATA = {
     'state_fips': '24',
     'county_fips': '031',
     'subdiv_fips': '90796',
-    'tract': '700704',
+    'tract': '700706',
     'blockgroup': '1',
     'place': '31175',
     'district': '06',       # for old `state_district` calling.
@@ -83,6 +90,11 @@ class TestUnsupportedYears(CensusTestCase):
                           client.state, ('NAME', '06'))
 
     def test_sf1(self):
+        client = self.client('sf1')
+        self.assertRaises(UnsupportedYearException,
+                          client.state, ('NAME', '06'))
+
+    def test_pl(self):
         client = self.client('sf1')
         self.assertRaises(UnsupportedYearException,
                           client.state, ('NAME', '06'))
@@ -141,6 +153,7 @@ class TestEndpoints(CensusTestCase):
         self.client('acs5').tables()
         self.client('acs5').tables(2010)
         self.client('sf1').tables()
+        self.client('pl').tables()
 
     def test_acs5(self):
 
@@ -151,9 +164,9 @@ class TestEndpoints(CensusTestCase):
             ('state_county_subdivision',
                 'District 9, Montgomery County, Maryland'),
             ('state_county_tract',
-                'Census Tract 7007.04, Montgomery County, Maryland'),
+                'Census Tract 7007.06, Montgomery County, Maryland'),
             ('state_county_blockgroup',
-                ('Block Group 1, Census Tract 7007.04, '
+                ('Block Group 1, Census Tract 7007.06, '
                     'Montgomery County, Maryland')),
             ('state_place', 'Gaithersburg city, Maryland'),
             ('state_district',
@@ -199,9 +212,9 @@ class TestEndpoints(CensusTestCase):
             ('state_county_subdivision',
                 ('District 9, Montgomery County, Maryland')),
             ('state_county_tract',
-                'Census Tract 7007.04, Montgomery County, Maryland'),
+                'Census Tract 7007.06, Montgomery County, Maryland'),
             ('state_county_blockgroup',
-                ('Block Group 1, Census Tract 7007.04, '
+                ('Block Group 1, Census Tract 7007.06, '
                  'Montgomery County, Maryland')),
             ('state_place', 'Gaithersburg city, Maryland'),
             ('state_congressional_district',
@@ -217,6 +230,32 @@ class TestEndpoints(CensusTestCase):
         )
 
         self.check_endpoints('sf1', tests)
+
+    def test_pl(self):
+
+        tests = (
+            ('us', 'United States'),
+            ('state', 'Maryland'),
+            ('state_county', 'Montgomery County, Maryland'),
+            ('state_county_subdivision',
+                'District 9, Montgomery County, Maryland'),
+            ('state_county_tract',
+                'Census Tract 7007.06, Montgomery County, Maryland'),
+            ('state_county_blockgroup',
+                ('Block Group 1, Census Tract 7007.06, '
+                    'Montgomery County, Maryland')),
+            ('state_place', 'Gaithersburg city, Maryland'),
+            ('state_district',
+                'Congressional District 6, Maryland'),
+            ('state_congressional_district',
+                'Congressional District 6, Maryland'),
+            ('state_legislative_district_upper',
+                'State Senate District 7 (2018), Maryland'),
+            ('state_legislative_district_lower',
+                'State Legislative District 7, Maryland'),
+        )
+
+        self.check_endpoints('pl', tests)
 
     def test_more_than_50(self):
         fields = ['B01001_003E', 'B01001_004E', 'B01001_005E',
