@@ -75,6 +75,7 @@ For each dataset, the first year listed is the default.
 * acs1dp: `ACS 1 Year Estimates, Data Profiles <https://www.census.gov/data/developers/data-sets/acs-1year.html>`_ (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
 * acs5st: `ACS 5 Year Estimates, Subject Tables <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
 * sf1: `Census Summary File 1 <https://www.census.gov/data/datasets/2010/dec/summary-file-1.html>`_ (2010)
+* pl: `Redistricing Data Summary File <https://www.census.gov/programs-surveys/decennial-census/about/rdo/summary-files.2020.html>`_ (2020, 2010, 2000) 
 
 
 Geographies
@@ -125,6 +126,18 @@ SF1 Geographies
 * state_district_place(fields, state_fips, district, place)
 * state_zipcode(fields, state_fips, zip5)
 
+PL Geographies
+--------------
+
+* state(fields, state_fips)
+* state_county(fields, state_fips, county_fips)
+* state_county_subdivision(fields, state_fips, county_fips, subdiv_fips)
+* state_county_tract(fields, state_fips, county_fips, tract)
+* state_county_blockgroup(fields, state_fips, county_fips, blockgroup)
+* state_place(fields, state_fips, place)
+* state_congressional_district(fields, state_fips, district)
+* state_legislative_district_upper(fields, state_fips, legislative_district)
+* state_legislative_district_lower(fields, state_fips, legislative_district)
 
 States
 ======
