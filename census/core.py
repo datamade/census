@@ -360,10 +360,15 @@ class ACS5Client(ACSClient):
 
     @supported_years(2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
     def state_zipcode(self, fields, state_fips, zcta, **kwargs):
-        return self.get(fields, geo={
+        year = kwargs.get('year', self.default_year)
+        geo = {
             'for': 'zip code tabulation area:{}'.format(zcta),
-            'regionin': 'state:{}'.format(state_fips),
-        }, **kwargs)
+        }
+        if year < 2020:
+            geo["in"] = 'state:{}'.format(state_fips)
+        else:
+            geo["regionin"] = 'state:{}'.format(state_fips)
+        return self.get(fields, geo, **kwargs)
 
 
 class ACS5DpClient(ACS5Client):
