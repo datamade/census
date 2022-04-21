@@ -364,6 +364,7 @@ class ACS5Client(ACSClient):
         geo = {
             'for': 'zip code tabulation area:{}'.format(zcta),
         }
+        # for 2020 onward, we need to use "regionin" instead of "in" due to ZCTA's being nested under states 
         if year < 2020:
             geo["in"] = 'state:{}'.format(state_fips)
         else:
