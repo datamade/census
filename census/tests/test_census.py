@@ -170,9 +170,9 @@ class TestEndpoints(CensusTestCase):
                     'Montgomery County, Maryland')),
             ('state_place', 'Gaithersburg city, Maryland'),
             ('state_district',
-                'Congressional District 6 (116th Congress), Maryland'),
+                'Congressional District 6, Maryland'),
             ('state_congressional_district',
-                'Congressional District 6 (116th Congress), Maryland'),
+                'Congressional District 6, Maryland'),
             ('state_legislative_district_upper',
                 'State Senate District 7 (2018), Maryland'),
             ('state_legislative_district_lower',
@@ -182,13 +182,40 @@ class TestEndpoints(CensusTestCase):
 
         self.check_endpoints('acs5', tests)
 
+    def test_acs5_previous_years(self):
+
+        tests = (
+            ('us', 'United States'),
+            ('state', 'Maryland'),
+            ('state_county', 'Montgomery County, Maryland'),
+            ('state_county_subdivision',
+                'District 9, Montgomery County, Maryland'),
+            ('state_county_tract',
+                'Census Tract 7007.06, Montgomery County, Maryland'),
+            ('state_county_blockgroup',
+                ('Block Group 1, Census Tract 7007.06, '
+                    'Montgomery County, Maryland')),
+            ('state_place', 'Gaithersburg city, Maryland'),
+            ('state_district',
+                'Congressional District 6, Maryland'),
+            ('state_congressional_district',
+                'Congressional District 6, Maryland'),
+            ('state_legislative_district_upper',
+                'State Senate District 7 (2018), Maryland'),
+            ('state_legislative_district_lower',
+                'State Legislative District 7 (2018), Maryland'),
+            ('state_zipcode', 'ZCTA5 20877'),
+        )
+
+        self.check_endpoints('acs5', tests, year=2019)
+
     def test_acs5st(self):
 
         tests = (
             ('us', 'United States'),
             ('state', 'Maryland'),
             ('state_congressional_district',
-                'Congressional District 6 (116th Congress), Maryland'),
+                'Congressional District 6, Maryland'),
         )
 
         self.check_endpoints('acs5st', tests)
