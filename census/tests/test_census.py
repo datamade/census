@@ -352,8 +352,17 @@ class TestEndpoints(CensusTestCase):
         res_2014_2014 = client.acs1.state('B01001_004E', Census.ALL)
         res_2014_2016 = client.acs1.state('B01001_004E', Census.ALL, year=2016)
 
-        assert res_2016_2016 == res_2014_2016
-        assert res_2014_2014 == res_2016_2014
+        assert sorted(
+            res_2016_2016, key=lambda x: x['state']
+        ) == sorted(
+            res_2014_2016, key=lambda x: x['state']
+        )
+
+        assert sorted(
+            res_2014_2014, key=lambda x: x['state']
+        ) == sorted(
+            res_2016_2014, key=lambda x: x['state']
+        )
 
     def test_older_sf1(self):
         client = Census(KEY)
