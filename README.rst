@@ -67,7 +67,7 @@ Datasets
 
 For each dataset, the first year listed is the default.
 
-* acs5: `ACS 5 Year Estimates <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
+* acs5: `ACS 5 Year Estimates <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
 * acs3: `ACS 3 Year Estimates <https://www.census.gov/data/developers/data-sets/acs-3year.html>`_ (2013, 2012)
 * acs1: `ACS 1 Year Estimates <https://www.census.gov/data/developers/data-sets/acs-1year.html>`_ (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
 * acs5dp: `ACS 5 Year Estimates, Data Profiles  <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
