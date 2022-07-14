@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Carbaugh"
+  given-names: "Jeremy"
+- family-names: "Gregg"
+  given-names: "Forest"
+- name: "Contributors"
+title: "census"
+version: 0.8.19
+date-released: 2022-07-14
+url: "https://github.com/datamade/census"
