@@ -31,11 +31,11 @@ def list_or_str(v):
     return [v]
 
 
-def float_or_str(v):
+def int_or_none(v):
     try:
-        return float(v)
-    except ValueError:
-        return str(v)
+        return int(v)
+    except TypeError:
+        return None
 
 
 def supported_years(*years):
@@ -220,7 +220,7 @@ class Client(object):
 
         types = {"fips-for": str,
                  "fips-in": str,
-                 "int": float_or_str,
+                 "int": int_or_none,
                  "float": float,
                  "string": str}
 
