@@ -96,6 +96,7 @@ class Client(object):
     groups_url = 'https://api.census.gov/data/%s/%s/groups.json'
 
     def __init__(self, key, year=None, session=None, retries=3):
+        self.dataset = None
         self._key = key
         self.session = session or new_session()
         if year:
@@ -410,10 +411,10 @@ class ACS3DpClient(ACS3Client):
 
 class ACS1Client(ACSClient):
 
-    default_year = 2019
+    default_year = 2021
     dataset = 'acs1'
 
-    years = (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
+    years = (2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
 
     @supported_years()
     def state_county_subdivision(self, fields, state_fips,
@@ -428,7 +429,7 @@ class ACS1DpClient(ACS1Client):
 
     dataset = 'acs1/profile'
 
-    years = (2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012)
+    years = (2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012)
 
 
 class SF1Client(Client):
