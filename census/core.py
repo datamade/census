@@ -293,7 +293,7 @@ class ACSClient(Client):
 
     def _switch_endpoints(self, year):
 
-        if year > 2009:
+        if year >= 2005:
             self.endpoint_url = 'https://api.census.gov/data/%s/acs/%s'
             self.definitions_url = 'https://api.census.gov/data/%s/acs/%s/variables.json'
             self.definition_url = 'https://api.census.gov/data/%s/acs/%s/variables/%s.json'
