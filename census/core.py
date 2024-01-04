@@ -287,7 +287,11 @@ class Client(object):
             'for': 'state legislative district (lower chamber):{}'.format(str(legislative_district).zfill(3)),
             'in': 'state:{}'.format(state_fips),
         }, **kwargs)
-
+    @supported_years()
+    def combined_statistical_area(self, fields, csa, **kwargs):
+        return self.get(fields, geo={
+            'for': 'combined statistical area:{}'.format(str(csa)),
+        }, **kwargs)
 
 class ACSClient(Client):
 
