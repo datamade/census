@@ -96,7 +96,6 @@ class Client(object):
     groups_url = 'https://api.census.gov/data/%s/%s/groups.json'
 
     def __init__(self, key, year=None, session=None, retries=3):
-        self.dataset = None
         self._key = key
         self.session = session or new_session()
         if year:
