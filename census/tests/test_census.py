@@ -50,7 +50,7 @@ TEST_DATA = {
     'place': '31175',
     'district': '06',       # for old `state_district` calling.
     'congressional_district': '06',
-    'legislative_district': '07',
+    'legislative_district': '06',
     'zcta': '20877',
     'msa': '47900',
     'csa': '548',
@@ -133,9 +133,6 @@ class TestEndpoints(CensusTestCase):
 
     def check_endpoints(self, client_name, tests, **kwargs):
 
-        if kwargs:
-            tests = ((k, kwargs.get(k, v)) for k, v in tests)
-
         client = self.client(client_name)
         fields = ('NAME',)
 
@@ -144,7 +141,7 @@ class TestEndpoints(CensusTestCase):
             msg = '{}.{}'.format(client_name, method_name)
 
             method = getattr(client, method_name)
-            data = method(fields, **TEST_DATA)
+            data = method(fields, **TEST_DATA, **kwargs)
             self.assertTrue(data, msg)
             self.assertEqual(data[0]['NAME'], expected, msg)
             time.sleep(0.2)
@@ -164,19 +161,19 @@ class TestEndpoints(CensusTestCase):
             ('state_county_subdivision',
                 'District 9, Montgomery County, Maryland'),
             ('state_county_tract',
-                'Census Tract 7007.06, Montgomery County, Maryland'),
+                'Census Tract 7007.06; Montgomery County; Maryland'),
             ('state_county_blockgroup',
-                ('Block Group 1, Census Tract 7007.06, '
-                    'Montgomery County, Maryland')),
+                ('Block Group 1; Census Tract 7007.06; '
+                    'Montgomery County; Maryland')),
             ('state_place', 'Gaithersburg city, Maryland'),
             ('state_district',
-                'Congressional District 6 (116th Congress), Maryland'),
+                'Congressional District 6 (118th Congress), Maryland'),
             ('state_congressional_district',
-                'Congressional District 6 (116th Congress), Maryland'),
+                'Congressional District 6 (118th Congress), Maryland'),
             ('state_legislative_district_upper',
-                'State Senate District 7 (2018), Maryland'),
+                'State Senate District 6 (2022), Maryland'),
             ('state_legislative_district_lower',
-                'State Legislative District 7 (2018), Maryland'),
+                'State Legislative District 6 (2022), Maryland'),
             ('state_zipcode', 'ZCTA5 20877'),
         )
 
@@ -201,9 +198,9 @@ class TestEndpoints(CensusTestCase):
             ('state_congressional_district',
                 'Congressional District 6 (116th Congress), Maryland'),
             ('state_legislative_district_upper',
-                'State Senate District 7 (2018), Maryland'),
+                'State Senate District 6 (2018), Maryland'),
             ('state_legislative_district_lower',
-                'State Legislative District 7 (2018), Maryland'),
+                'State Legislative District 6 (2018), Maryland'),
             ('state_zipcode', 'ZCTA5 20877'),
         )
 
@@ -215,7 +212,7 @@ class TestEndpoints(CensusTestCase):
             ('us', 'United States'),
             ('state', 'Maryland'),
             ('state_congressional_district',
-                'Congressional District 6 (116th Congress), Maryland'),
+                'Congressional District 6 (118th Congress), Maryland'),
         )
 
         self.check_endpoints('acs5st', tests)
@@ -226,7 +223,7 @@ class TestEndpoints(CensusTestCase):
             ('us', 'United States'),
             ('state', 'Maryland'),
             ('state_congressional_district',
-                'Congressional District 6 (116th Congress), Maryland'),
+                'Congressional District 6 (118th Congress), Maryland'),
         )
 
         self.check_endpoints('acs1dp', tests)
@@ -277,9 +274,9 @@ class TestEndpoints(CensusTestCase):
             ('state_congressional_district',
                 'Congressional District 6 (116th Congress), Maryland'),
             ('state_legislative_district_upper',
-                'State Senate District 7 (2018), Maryland'),
+                'State Senate District 6 (2018), Maryland'),
             ('state_legislative_district_lower',
-                'State Legislative District 7 (2018), Maryland'),
+                'State Legislative District 6 (2018), Maryland'),
         )
 
         self.check_endpoints('pl', tests)
