@@ -291,6 +291,13 @@ class Client(object):
         return self.get(fields, geo={
             'for': 'combined statistical area:{}'.format(str(csa)),
         }, **kwargs)
+    
+    @supported_years()
+    def msa(self, fields, msa, **kwargs):
+        return self.get(fields, geo={
+            'for': ('metropolitan statistical area/' +
+                'micropolitan statistical area:{}'.format(msa)), 
+        }, **kwargs)
 
 class ACSClient(Client):
 
