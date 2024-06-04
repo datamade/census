@@ -1,8 +1,8 @@
 import warnings
 from functools import wraps, lru_cache
+from importlib.metadata import version
 
-import pkg_resources
-__version__ = pkg_resources.require("census")[0].version
+__version__ = version('census')
 
 ALL = '*'
 
