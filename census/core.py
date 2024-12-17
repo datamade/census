@@ -116,6 +116,39 @@ class Client(object):
 
         # Pass it out
         return resp.json()['groups']
+    
+    def variables(self, year=None): # added
+        """
+        Returns a list of the data variables available from this source.
+        """
+        # Set the default year if one hasn't been passed
+        if year is None:
+            year = self.default_year
+
+        # Query the table metadata as raw JSON
+        tables_url = self.definitions_url % (year, 'acs/'+self.dataset)
+        resp = self.session.get(tables_url)
+
+        # Pass it out
+        return resp.json()['variables']
+    
+    def find_variables(self, label: str, group: str, year:str=None) -> list[[str, str]]:
+        """
+        Returns a list of partial matches of sub variables
+        """
+
+        variables = self.variables(year)
+        keys = list(
+                    filter(
+                        lambda row: variables[row]['group']=='S1811' and 'Below' in variables[row]['label'],
+                        variables 
+                         )
+                    )
+        
+        matches = [[key, variables[key]['label']] for key in keys]
+        
+        return matches
+    
 
     @supported_years()
     def fields(self, year=None, flat=False):
@@ -123,7 +156,6 @@ class Client(object):
             year = self.default_year
 
         data = {}
-
         fields_url = self.definitions_url % (year, self.dataset)
 
         resp = self.session.get(fields_url)
@@ -398,6 +430,16 @@ class ACS5StClient(ACS5Client):
 
     dataset = 'acs5/subject'
 
+class ACS1StClient(ACSClient): # added
+    default_year = 2019
+    def _switch_endpoints(self, year):
+        self.endpoint_url = 'https://api.census.gov/data/%s/acs/%s'
+        self.definitions_url = 'https://api.census.gov/data/%s/acs/%s/variables.json'
+        self.definition_url = 'https://api.census.gov/data/%s/acs/%s/variables/%s.json'
+        self.groups_url = 'https://api.census.gov/data/%s/acs/%s/groups.json'
+
+    dataset = 'acs1/subject'
+
 
 class ACS3Client(ACSClient):
 
@@ -595,7 +637,8 @@ class Census(object):
         self.acs5 = ACS5Client(key, year, session)
         self.acs3 = ACS3Client(key, year, session)
         self.acs1 = ACS1Client(key, year, session)
-        self.acs5st = ACS5StClient(key, year, session)
+        self.acs1st = ACS1StClient(key, year, session)
+        self.acs5st = ACS5StClient(key, year, session) # added
         self.acs5dp = ACS5DpClient(key, year, session)
         self.acs3dp = ACS3DpClient(key, year, session)
         self.acs1dp = ACS1DpClient(key, year, session)
