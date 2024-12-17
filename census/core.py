@@ -140,7 +140,7 @@ class Client(object):
         variables = self.variables(year)
         keys = list(
                     filter(
-                        lambda row: variables[row]['group']=='S1811' and 'Below' in variables[row]['label'],
+                        lambda row: variables[row]['group']==group and label in variables[row]['label'],
                         variables 
                          )
                     )
