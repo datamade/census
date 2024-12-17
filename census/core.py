@@ -117,7 +117,7 @@ class Client(object):
         # Pass it out
         return resp.json()['groups']
     
-    def variables(self, year=None): # added
+    def variables(self, year=None) -> list: # added
         """
         Returns a list of the data variables available from this source.
         """
@@ -132,7 +132,7 @@ class Client(object):
         # Pass it out
         return resp.json()['variables']
     
-    def find_variables(self, label: str, group: str, year:str=None) -> list[[str, str]]:
+    def find_variables(self, label: str, group: str, year:str=None) -> list:
         """
         Returns a list of partial matches of sub variables
         """
