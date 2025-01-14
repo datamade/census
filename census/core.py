@@ -440,7 +440,7 @@ class ACS1DpClient(ACS1Client):
 
     dataset = 'acs1/profile'
 
-    years = (2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012)
+    years = (2023, 2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012)
 
 
 class SF1Client(Client):
