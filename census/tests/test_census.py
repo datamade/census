@@ -166,14 +166,15 @@ class TestEndpoints(CensusTestCase):
                 ('Block Group 1; Census Tract 7007.06; '
                     'Montgomery County; Maryland')),
             ('state_place', 'Gaithersburg city, Maryland'),
+            # 2022 and 2023 ACS5 API calls use legislative districts from 2022 as their geography
             ('state_district',
                 'Congressional District 6 (118th Congress), Maryland'),
             ('state_congressional_district',
                 'Congressional District 6 (118th Congress), Maryland'),
             ('state_legislative_district_upper',
-                'State Senate District 6 (2022), Maryland'),
+                'State Senate District 6 (2022); Maryland'),
             ('state_legislative_district_lower',
-                'State Legislative District 6 (2022), Maryland'),
+                'State Legislative District 6 (2022); Maryland'),
             ('state_zipcode', 'ZCTA5 20877'),
         )
 
