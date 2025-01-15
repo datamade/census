@@ -74,6 +74,7 @@ For each dataset, the first year listed is the default.
 * acs3dp: `ACS 3 Year Estimates, Data Profiles <https://www.census.gov/data/developers/data-sets/acs-3year.html>`_ (2013, 2012)
 * acs1dp: `ACS 1 Year Estimates, Data Profiles <https://www.census.gov/data/developers/data-sets/acs-1year.html>`_ (2023, 2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
 * acs5st: `ACS 5 Year Estimates, Subject Tables <https://www.census.gov/data/developers/data-sets/acs-5year.html>`_ (2023, 2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
+* dhc: `Demographic and Housing Characteristics File <https://www.census.gov/data/tables/2023/dec/2020-census-dhc.html>`_ (2020)
 * sf1: `Census Summary File 1 <https://www.census.gov/data/datasets/2010/dec/summary-file-1.html>`_ (2010)
 * pl: `Redistricting Data Summary File <https://www.census.gov/programs-surveys/decennial-census/about/rdo/summary-files.2020.html>`_ (2020, 2010, 2000) 
 
