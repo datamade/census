@@ -327,10 +327,10 @@ class ACSClient(Client):
 
 class ACS5Client(ACSClient):
 
-    default_year = 2022
+    default_year = 2023
     dataset = 'acs5'
 
-    years = (2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
+    years = (2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009)
 
     @supported_years()
     def state_county_subdivision(self, fields, state_fips,
@@ -359,7 +359,7 @@ class ACS5Client(ACSClient):
             geo['in'] += ' tract:{}'.format(tract)
         return self.get(fields, geo=geo, **kwargs)
 
-    @supported_years(2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
+    @supported_years(2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
     def zipcode(self, fields, zcta, **kwargs):
         warnings.warn(
             "zipcode has been deprecated; use state_zipcode instead",
@@ -370,7 +370,7 @@ class ACS5Client(ACSClient):
 
         return self.state_zipcode(fields, state_fips, zcta, **kwargs)
 
-    @supported_years(2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
+    @supported_years(2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011)
     def state_zipcode(self, fields, state_fips, zcta, **kwargs):
         year = kwargs.get('year', self.default_year)
         geo = {
@@ -422,10 +422,10 @@ class ACS3DpClient(ACS3Client):
 
 class ACS1Client(ACSClient):
 
-    default_year = 2022
+    default_year = 2023
     dataset = 'acs1'
 
-    years = (2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005)
+    years = (2023, 2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005)
 
     @supported_years()
     def state_county_subdivision(self, fields, state_fips,
@@ -440,7 +440,7 @@ class ACS1DpClient(ACS1Client):
 
     dataset = 'acs1/profile'
 
-    years = (2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012)
+    years = (2023, 2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012)
 
 
 class SF1Client(Client):
