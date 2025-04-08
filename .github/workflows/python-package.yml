@@ -43,7 +43,7 @@ jobs:
       run: |
         pytest
     - name: Build and publish
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags') || github.event_name == 'release' && startsWith(github.event.release.tag_name, 'v')
+      if: (github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')) || (github.event_name == 'release' && startsWith(github.event.release.tag_name, 'v'))
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
