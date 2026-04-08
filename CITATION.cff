@@ -7,6 +7,6 @@ authors:
   given-names: "Forest"
 - name: "Contributors"
 title: "census"
-version: 0.8.25
-date-released: 2026-01-07
+version: 0.8.26
+date-released: 2026-02-07
 url: "https://github.com/datamade/census"
