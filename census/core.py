@@ -153,7 +153,7 @@ class Client(object):
         in case the responses are in different orders.
         GEO_ID is not reliably present in pre-2010 requests.
         """
-        sort_by_geoid = len(fields) > 49 and (not year or year > 2009)
+        sort_by_geoid = len(fields) > 49 and (not year or year >= 2000)
         all_results = (self.query(forty_nine_fields, geo, year, sort_by_geoid=sort_by_geoid, **kwargs)
                        for forty_nine_fields in chunks(fields, 49))
         merged_results = [merge(result) for result in zip(*all_results)]
