@@ -216,7 +216,7 @@ class Client(object):
     @lru_cache(maxsize=1024)
     def _field_type(self, field, year):
         url = self.definition_url % (year, self.dataset, field)
-        resp = self.session.get(url)
+        resp = self.session.get(url, params={"key": self._key})
 
         types = {"fips-for": str,
                  "fips-in": str,
@@ -581,6 +581,11 @@ class Census(object):
     ALL = ALL
 
     def __init__(self, key, year=None, session=None):
+        if key == "" or key is None:
+            raise ValueError(
+                "As of May 12, 2026, all requests to the US Census API require an API key. "
+                "You may acquire one at https://api.census.gov/data/key_signup.html"
+            )
 
         if not session:
             session = new_session()
