@@ -5,7 +5,7 @@ import time
 import unittest
 
 from census.core import (
-    Census, UnsupportedYearException)
+    Census, Client, UnsupportedYearException)
 
 KEY = os.environ.get('CENSUS_KEY', '')
 
@@ -383,6 +383,21 @@ class TestEndpoints(CensusTestCase):
             year=2000,
         )
         assert result_2010 != result_2000
+
+
+class TestAPIKeyRequired(unittest.TestCase):
+
+    def test_census_raises_without_key(self):
+        with self.assertRaises(ValueError):
+            Census(None)
+        with self.assertRaises(ValueError):
+            Census("")
+
+    def test_client_raises_without_key(self):
+        with self.assertRaises(ValueError):
+            Client(None)
+        with self.assertRaises(ValueError):
+            Client("")
 
 
 if __name__ == '__main__':
