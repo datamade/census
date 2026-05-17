@@ -324,6 +324,10 @@ class ACSClient(Client):
         self._switch_endpoints(kwargs.get('year', self.default_year))
         return super(ACSClient, self).tables(*args, **kwargs)
 
+    def fields(self, *args, **kwargs):
+        self._switch_endpoints(kwargs.get('year', self.default_year))
+        return super(ACSClient, self).fields(*args, **kwargs)
+
     def get(self, *args, **kwargs):
         self._switch_endpoints(kwargs.get('year', self.default_year))
 
@@ -466,6 +470,10 @@ class SF1Client(Client):
         self._switch_endpoints(kwargs.get('year', self.default_year))
         return super(SF1Client, self).tables(*args, **kwargs)
 
+    def fields(self, *args, **kwargs):
+        self._switch_endpoints(kwargs.get('year', self.default_year))
+        return super(SF1Client, self).fields(*args, **kwargs)
+
     def get(self, *args, **kwargs):
         self._switch_endpoints(kwargs.get('year', self.default_year))
 
@@ -547,6 +555,10 @@ class PLClient(Client):
     def tables(self, *args, **kwargs):
         self._switch_endpoints(kwargs.get('year', self.default_year))
         return super(PLClient, self).tables(*args, **kwargs)
+
+    def fields(self, *args, **kwargs):
+        self._switch_endpoints(kwargs.get('year', self.default_year))
+        return super(PLClient, self).fields(*args, **kwargs)
 
     def get(self, *args, **kwargs):
         self._switch_endpoints(kwargs.get('year', self.default_year))
