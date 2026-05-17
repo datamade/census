@@ -353,7 +353,11 @@ class ACS5Client(ACSClient):
             'in': 'state:{} county:{}'.format(state_fips, county_fips),
         }, **kwargs)
 
-    @supported_years()
+    # Block group geography wasn't published in the ACS API until 2013; earlier
+    # years just return "unknown/unsupported geography hierarchy" from the API.
+    # Restrict the supported years so callers get a clearer UnsupportedYear
+    # error up front. See #140, #155.
+    @supported_years(2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013)
     def state_county_blockgroup(self, fields, state_fips, county_fips,
                                 blockgroup, tract=None, **kwargs):
         geo = {
