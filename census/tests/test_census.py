@@ -152,6 +152,16 @@ class TestEndpoints(CensusTestCase):
         self.client('sf1').tables()
         self.client('pl').tables()
 
+    def test_fields(self):
+        # Regression for #138: fields() needs the same endpoint switch
+        # that tables() and get() do. Otherwise calling fields() before
+        # anything else on an ACS/SF1/PL client hits the wrong URL and
+        # 404s.
+        self.client('acs5').fields()
+        self.client('acs5').fields(2010)
+        self.client('sf1').fields()
+        self.client('pl').fields()
+
     def test_acs5(self):
 
         tests = (
